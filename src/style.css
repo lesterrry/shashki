@@ -11,12 +11,7 @@ me@aydar.media
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-}
-
-a, p, h1, h2, h3, h4, h5, h6 {
-	font-family: 'JetBrains Mono';
-	line-height: 1.4;
-	text-transform: uppercase;
+	transition: ease-out 0.2s;
 }
 
 html, body {
@@ -24,14 +19,37 @@ html, body {
 }
 
 body {
-	background-color: #dbd7d2;
+	background-color: white;
 }
 
 img, svg {
 	-webkit-user-select: none;
 }
 
-#frame, #canvas {
+h1, img.text {
+	z-index: 30;
+}
+
+h1 {
+	font-size: 68px;
+	font-family: Panama, serif;
+	text-transform: uppercase;
+	font-weight: 100;
+	line-height: normal;
+	letter-spacing: 0.08em;
+	color: black;
+
+	top: calc(50% - 260px);
+	left: calc(50% - 540px);
+}
+
+h1.stroke {
+	-webkit-text-stroke: 10px white;
+	z-index: 20;
+	filter:url(#goo);
+}
+
+#canvas, #frame {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -40,7 +58,8 @@ img, svg {
 }
 
 #frame {
-	margin: 5px;
+	position: absolute;
+	margin: auto;
 }
 
 #canvas {
@@ -50,41 +69,40 @@ img, svg {
 	align-items: center;
 }
 
+#canvas > * {
+	position: absolute;
+}
+
 #frame img {
 	position: absolute;
 	width: 40px;
 }
 
 #frame img:nth-child(1) {
-	top: 0;
-	left: 0;
+	top: -40px;
+	left: -40px;
 	transform: rotate(270deg);
 }
 
 #frame img:nth-child(2) {
-	top: 0;
-	right: 0;
+	top: -40px;
+	right: -40px;
 }
 
 #frame img:nth-child(3) {
-	bottom: 0;
-	left: 0;
+	bottom: -40px;
+	left: -40px;
 	transform: rotate(180deg);
 }
 
 #frame img:nth-child(4) {
-	bottom: 0;
-	right: 0;
+	bottom: -40px;
+	right: -40px;
 	transform: rotate(90deg);
-}
-
-.flock {
-	position: absolute;
 }
 
 .cell {
 	position: absolute;
 	box-sizing: border-box;
-	background-color: #00AAE9;
+	z-index: 10;
 }
-

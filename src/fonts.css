@@ -1,1 +1,5 @@
-
+@font-face {
+    font-family: Panama;
+    src: url('../static/fonts/Panama-Italic.woff2') format('woff2'),
+        url('../static/fonts/Panama-Italic.woff') format('woff');
+}
