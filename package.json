@@ -17,6 +17,7 @@
     "html-loader": "^3.0.0",
     "html-webpack-plugin": "^5.5.0",
     "internal-ip": "^6.2.0",
+    "jquery": "^3.7.1",
     "lottie-web": "^5.10.2",
     "mini-css-extract-plugin": "^2.4.3",
     "portfinder-sync": "0.0.2",
