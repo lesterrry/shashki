@@ -25,6 +25,10 @@ let flocks = []
 let headings = []
 let lastTime = 0
 
+let currentScrollPx = 0
+let currentScrollRegion = -1
+let currentScrollRegionProgress = 0
+
 let $container, $frame
 
 const createCell = (size, color) => {
@@ -77,7 +81,6 @@ const repaintFlock = (id, color) => {
 	$children.each(function (i) {
 		const [row, column] = [Math.floor(i / columns), i % columns]
 		$(this).css('background-color', resolveColor({ array: CMYK, makeCheckers: true }, 0, row + column))
-		console.log(row, column)
 	})
 }
 
@@ -104,19 +107,62 @@ const createHeading = (text, x, y, additionalStyles = null) => {
 }
 
 const animate = (currentTime) => {
-	const deltaTime = (currentTime - lastTime) / 1000; // in seconds
+	const deltaTime = (currentTime - lastTime) / 1000;  // in seconds
 
 	if (deltaTime >= 1) {
-		repaintFlock('s', { array: CMYK, makeCheckers: true })
+		if (currentScrollRegion === -1) repaintFlock('s', { array: CMYK, makeCheckers: true })
 		lastTime = currentTime
 	}
 
 	window.requestAnimationFrame(animate)
 }
 
+const handleScroll = (pxValue, region) => {
+	switch (region) {
+		case 0:
+			$('.flock#s').css('filter', `grayscale(${currentScrollRegionProgress * 100}%)`)
+			break
+	}
+}
+
 Array.prototype.random = function () {
 	return this[Math.floor((Math.random() * this.length))];
 }
+
+$(document).on("scroll", function() {
+	const getRegion = (value) => {
+		if (value < scrollRegions[0][0]) return -1
+		for (let i = 0; i < scrollRegions.length; i++) {
+			if (value >= scrollRegions[i][0] && value <= scrollRegions[i][1]) return i;
+		}
+		return 1000
+	}
+	const getProgress = (value) => {
+		if (currentScrollRegion === -1)   return 0
+		if (currentScrollRegion === 1000) return 1
+
+		const inputMin = scrollRegions[currentScrollRegion][0];
+		const inputMax = scrollRegions[currentScrollRegion][1];
+		const outputMin = 0;
+		const outputMax = 1;
+
+		const normalizedValue = (value - inputMin) / (inputMax - inputMin);
+		const mappedValue = outputMin + (outputMax - outputMin) * normalizedValue;
+
+		return mappedValue;
+	}
+
+	const scrollRegions = [
+		[1, 1500]
+	]
+
+	const currentScrollPx = $(window).scrollTop();
+	currentScrollRegion = getRegion(currentScrollPx)
+	currentScrollRegionProgress = getProgress(currentScrollPx)
+
+	handleScroll(currentScrollPx, currentScrollRegion)
+});
+
 
 window.addEventListener('load', () => {
 	$container = $('#canvas');

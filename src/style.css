@@ -15,11 +15,12 @@ me@aydar.media
 }
 
 html, body {
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 body {
 	background-color: white;
+	height: 20000px;
 }
 
 img, svg {
@@ -46,8 +47,8 @@ h1.stroke {
 	filter:url(#goo);
 }
 
-#canvas, #frame {
-	position: absolute;
+#canvas {
+	position: fixed;
 	left: 0;
 	right: 0;
 	top: 0;
