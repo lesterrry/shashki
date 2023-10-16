@@ -23,6 +23,7 @@ const MIX = [
 
 let flocks = []
 let headings = []
+let lastTime = 0
 
 let $container, $frame
 
@@ -39,21 +40,24 @@ const createRandomColor = (colorDict, index) => {
 	return (colorDict['makeCheckers'] && index % 2 === 0) ? '#FFFFFF' : colorDict['array'].random()
 }
 
+const resolveColor = (color, arrayIndex = 0, randomIndex = 0) => {
+	return Array.isArray(color) ? color[arrayIndex] : createRandomColor(color, randomIndex)
+}
+
 const createFlock = (id, cellSize, rows, columns, color) => {
 	const [width, height] = [(cellSize * columns) + 'px', (cellSize * rows) + 'px']
 
-	const $container = $('#canvas');
-	const $frame = $('#id')
-
 	const $flock = $('<div></div>');
 	$flock.addClass(flocks.length === 0 ? 'flock primary' : 'flock')
-	$flock.id = id
+	$flock.attr('id', id)
+	$flock.data('rows', rows)
+	$flock.data('columns', columns)
 	$flock.css('width', width); $frame.css('width', width)
 	$flock.css('height', height); $frame.css('height', height);
 
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < columns; x++) {
-			const $cell = createCell(cellSize, Array.isArray(color) ? color[(y + 1) * x] : createRandomColor(color, x + y));
+			const $cell = createCell(cellSize, resolveColor(color, (y + 1) * x, x + y));
 			$cell.css('left', x * cellSize + 'px');
 			$cell.css('top', y * cellSize + 'px');
 			$flock.append($cell);
@@ -62,6 +66,19 @@ const createFlock = (id, cellSize, rows, columns, color) => {
 
 	flocks.push($flock)
 	$container.append($flock)
+}
+
+const repaintFlock = (id, color) => {
+	const $flock = $(`.flock#${id}`)
+	const $children = $(`.flock#${id} > *`)
+
+	const columns = $flock.data('columns')
+
+	$children.each(function (i) {
+		const [row, column] = [Math.floor(i / columns), i % columns]
+		$(this).css('background-color', resolveColor({ array: CMYK, makeCheckers: true }, 0, row + column))
+		console.log(row, column)
+	})
 }
 
 const calc = (percent, px) => {
@@ -86,6 +103,17 @@ const createHeading = (text, x, y, additionalStyles = null) => {
 	headings.push($heading)
 }
 
+const animate = (currentTime) => {
+	const deltaTime = (currentTime - lastTime) / 1000; // in seconds
+
+	if (deltaTime >= 1) {
+		repaintFlock('s', { array: CMYK, makeCheckers: true })
+		lastTime = currentTime
+	}
+
+	window.requestAnimationFrame(animate)
+}
+
 Array.prototype.random = function () {
 	return this[Math.floor((Math.random() * this.length))];
 }
@@ -94,7 +122,14 @@ window.addEventListener('load', () => {
 	$container = $('#canvas');
 	$frame = $('#frame');
 
+
+
 	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
+
 	createHeading('общее и частное<br>московских таксистов', -590, -260)
 	createHeading('сквозь оформление<br>машин такси', -110, 150, { textAlign: 'right' })
+
+	window.requestAnimationFrame(animate)
 });
+
+
