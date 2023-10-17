@@ -27,6 +27,9 @@ let lastTime = 0
 
 let currentScrollPx = 0
 let currentScrollRegion = -1
+let regionApplied = false
+let subRegion = 0
+let subRegionApplied = false
 
 let $container, $frame
 
@@ -83,6 +86,15 @@ const repaintFlock = (id, color) => {
 	})
 }
 
+const normalizeFlock = (id, cellSize) => {
+	const $flock = $(`.flock#${id}`)
+	const $children = $(`.flock#${id} > *`)
+
+	$children.each(function (i) {
+		$(this).css({'width': cellSize, 'height': cellSize, 'z-index': 10})  // TODO: доставать из data
+	})
+}
+
 const sliceFlock = (id) => {
 	const $flock = $(`.flock#${id}`)
 	const columns = $flock.data('columns')
@@ -105,6 +117,15 @@ const sliceFlock = (id) => {
 	return result;
 }
 
+const getCell = (flockId, row, column) => {
+	const $flock = $(`.flock#${flockId}`)
+	const columns = $flock.data('columns')
+	const rows = $flock.data('rows')
+
+	const index = (row * columns) + column;
+	return $flock.children()[index];
+}
+
 
 const calc = (percent, px) => {
 	const tail = px >= 0 ? `+ ${px}` : `- ${Math.abs(px)}`
@@ -118,9 +139,10 @@ const mapValue = (value, l ,r, min, max) => {
 	return mappedValue;
 }
 
-const createHeading = (text, x, y, additionalStyles = null) => {
+const createHeading = (id, text, x, y, additionalStyles = null) => {
 	const $heading = $('<h1></h1>')
 	$heading.html(text)
+	$heading.attr('id', id)
 	$heading.css('top', calc(50, y))
 	$heading.css('left', calc(50, x))
 
@@ -135,6 +157,11 @@ const createHeading = (text, x, y, additionalStyles = null) => {
 	headings.push($heading)
 }
 
+const createParagraphInCell = (flockId, row, column, text) => {
+	const cell = getCell(flockId, row, column)
+	$(cell).append($(`<p>${text}</p>`))
+}
+
 const animate = (currentTime) => {
 	const deltaTime = (currentTime - lastTime) / 1000;  // in seconds
 
@@ -147,16 +174,61 @@ const animate = (currentTime) => {
 }
 
 const handleScroll = (pxValue, region, progress) => {
+	if (region !== currentScrollRegion) subRegion = newSubRegion; subRegionApplied = false
 	switch (region) {
+		case -1:
+			if (!regionApplied) {
+				$('h1').css('display', '')
+				regionApplied = true
+			}
+			break
 		case 0:
+			if (!regionApplied) {
+				normalizeFlock('s', 80)
+				regionApplied = true
+			}
+
 			const slice = sliceFlock('s')
 			const mapped = Math.round(mapValue(progress, 0, 1, 0, slice.length))
-			console.log(mapped)
+
 			slice.forEach((i) => {
 				$([].concat(...i.slice(0, mapped))).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
 			})
 
-			// $('.flock#s > *').css('filter', `grayscale(${currentScrollRegionProgress * 100}%)`)
+			const newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
+			if (newSubRegion !== subRegion) subRegion = newSubRegion; subRegionApplied = false
+
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 0:
+						$(`h1#1`).css('display', ''); $(`h1#1.stroke`).css('display', ''); $(`h1#2`).css('display', ''); $(`h1#2.stroke`).css('display', '')
+						break
+					case 1:
+						$(`h1#1`).css('display', 'none')
+						break
+					case 2:
+						$(`h1#1.stroke`).css('display', 'none')
+						break
+					case 3:
+						$(`h1#2`).css('display', 'none')
+						break
+					case 4:
+						$(`h1#2.stroke`).css('display', 'none')
+						break
+				}
+				subRegionApplied = true
+			}
+
+			break
+		case 1:
+			if (!regionApplied) {
+				$('h1').css('display', 'none')
+				regionApplied = true
+			}
+
+			const $cell = $(getCell('s', 1, 2))
+			$cell.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+
 			break
 	}
 }
@@ -175,11 +247,14 @@ $(document).on("scroll", function() {
 	}
 
 	const scrollRegions = [
-		[1, 1000]
+		[1, 1000],
+		[1000, 2000]
 	]
 
 	const currentScrollPx = $(window).scrollTop();
-	currentScrollRegion = getRegion(currentScrollPx)
+	const newScrollRegion = getRegion(currentScrollPx)
+	if (newScrollRegion !== currentScrollRegion) currentScrollRegion = newScrollRegion; regionApplied = false
+
 	let currentScrollRegionProgress = () => { if (currentScrollRegion === -1) return 0; if (currentScrollRegion === 1000) return 1; return mapValue(currentScrollPx, scrollRegions[currentScrollRegion][0], scrollRegions[currentScrollRegion][1], 0,1) }
 
 	handleScroll(currentScrollPx, currentScrollRegion, currentScrollRegionProgress())
@@ -196,10 +271,9 @@ window.addEventListener('load', () => {
 
 	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
 
-	createHeading('общее и частное<br>московских таксистов', -590, -260)
-	createHeading('сквозь оформление<br>машин такси', -110, 150, { textAlign: 'right' })
+	createHeading('1', 'общее и частное<br>московских таксистов', -590, -260)
+	createHeading('2', 'сквозь оформление<br>машин такси', -110, 150, { textAlign: 'right' })
+	createParagraphInCell('s', 1, 2, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
 
 	window.requestAnimationFrame(animate)
 });
-
-

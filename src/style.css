@@ -41,6 +41,13 @@ h1 {
 	color: black;
 }
 
+p {
+	font-size: 16px;
+	font-family: Gramatika, sans-serif;
+	-webkit-text-stroke: 0.5px black;
+	transform: scaleY(1.5);
+}
+
 h1.stroke {
 	-webkit-text-stroke: 10px white;
 	z-index: 20;
@@ -103,4 +110,11 @@ h1.stroke {
 	position: absolute;
 	box-sizing: border-box;
 	z-index: 10;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+
+.cell > p {
+	margin: 20px;
 }
