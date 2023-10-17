@@ -92,6 +92,7 @@ const normalizeFlock = (id, cellSize) => {
 
 	$children.each(function (i) {
 		$(this).css({'width': cellSize, 'height': cellSize, 'z-index': 10})  // TODO: доставать из data
+		$(this).children().removeAttr('style')
 	})
 }
 
@@ -174,7 +175,8 @@ const animate = (currentTime) => {
 }
 
 const handleScroll = (pxValue, region, progress) => {
-	if (region !== currentScrollRegion) subRegion = newSubRegion; subRegionApplied = false
+	if (region !== currentScrollRegion) subRegion = 0; subRegionApplied = true
+	let newSubRegion
 	switch (region) {
 		case -1:
 			if (!regionApplied) {
@@ -195,7 +197,7 @@ const handleScroll = (pxValue, region, progress) => {
 				$([].concat(...i.slice(0, mapped))).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
 			})
 
-			const newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
+			newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
 			if (newSubRegion !== subRegion) subRegion = newSubRegion; subRegionApplied = false
 
 			if (!subRegionApplied) {
@@ -226,8 +228,23 @@ const handleScroll = (pxValue, region, progress) => {
 				regionApplied = true
 			}
 
-			const $cell = $(getCell('s', 1, 2))
-			$cell.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+			newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
+			if (newSubRegion !== subRegion) subRegion = newSubRegion; subRegionApplied = false
+
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 0:
+						const $cell_a = $(getCell('s', 1, 2))
+						$cell_a.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+						$cell_a.children().css('display', 'initial')
+						break
+					case 1:
+						const $cell_b = $(getCell('s', 5, 9))
+						$cell_b.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+						$cell_b.children().css('display', 'initial')
+						break
+				}
+			}
 
 			break
 	}
@@ -274,6 +291,7 @@ window.addEventListener('load', () => {
 	createHeading('1', 'общее и частное<br>московских таксистов', -590, -260)
 	createHeading('2', 'сквозь оформление<br>машин такси', -110, 150, { textAlign: 'right' })
 	createParagraphInCell('s', 1, 2, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
+	createParagraphInCell('s', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
 
 	window.requestAnimationFrame(animate)
 });
