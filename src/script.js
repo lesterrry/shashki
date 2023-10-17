@@ -27,7 +27,6 @@ let lastTime = 0
 
 let currentScrollPx = 0
 let currentScrollRegion = -1
-let currentScrollRegionProgress = 0
 
 let $container, $frame
 
@@ -80,13 +79,43 @@ const repaintFlock = (id, color) => {
 
 	$children.each(function (i) {
 		const [row, column] = [Math.floor(i / columns), i % columns]
-		$(this).css('background-color', resolveColor({ array: CMYK, makeCheckers: true }, 0, row + column))
+		$(this).css({'background-color': resolveColor({ array: CMYK, makeCheckers: true }, 0, row + column), 'filter': ''})
 	})
 }
+
+const sliceFlock = (id) => {
+	const $flock = $(`.flock#${id}`)
+	const columns = $flock.data('columns')
+	const rows = $flock.data('rows')
+
+	const result = [];
+
+	for (let sum = 0; sum <= rows + columns - 2; sum++) {
+		result[sum] = [];
+
+		for (let r = 0; r < rows; r++) {
+			for (let c = 0; c < columns; c++) {
+				if (r + c === sum) {
+					result[sum].push($flock.children()[r * columns + c]);
+				}
+			}
+		}
+	}
+
+	return result;
+}
+
 
 const calc = (percent, px) => {
 	const tail = px >= 0 ? `+ ${px}` : `- ${Math.abs(px)}`
 	return `calc(${percent}% ${tail}px)`
+}
+
+const mapValue = (value, l ,r, min, max) => {
+	const normalizedValue = (value - l) / (r - l);
+	const mappedValue = min + (max - min) * normalizedValue;
+	// console.log(mappedValue)
+	return mappedValue;
 }
 
 const createHeading = (text, x, y, additionalStyles = null) => {
@@ -94,7 +123,7 @@ const createHeading = (text, x, y, additionalStyles = null) => {
 	$heading.html(text)
 	$heading.css('top', calc(50, y))
 	$heading.css('left', calc(50, x))
-	console.log(calc(50, x))
+
 	for (let i in additionalStyles) $heading.css(i, additionalStyles[i]);
 
 	$container.append($heading)
@@ -117,10 +146,17 @@ const animate = (currentTime) => {
 	window.requestAnimationFrame(animate)
 }
 
-const handleScroll = (pxValue, region) => {
+const handleScroll = (pxValue, region, progress) => {
 	switch (region) {
 		case 0:
-			$('.flock#s').css('filter', `grayscale(${currentScrollRegionProgress * 100}%)`)
+			const slice = sliceFlock('s')
+			const mapped = Math.round(mapValue(progress, 0, 1, 0, slice.length))
+			console.log(mapped)
+			slice.forEach((i) => {
+				$([].concat(...i.slice(0, mapped))).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
+			})
+
+			// $('.flock#s > *').css('filter', `grayscale(${currentScrollRegionProgress * 100}%)`)
 			break
 	}
 }
@@ -137,34 +173,22 @@ $(document).on("scroll", function() {
 		}
 		return 1000
 	}
-	const getProgress = (value) => {
-		if (currentScrollRegion === -1)   return 0
-		if (currentScrollRegion === 1000) return 1
-
-		const inputMin = scrollRegions[currentScrollRegion][0];
-		const inputMax = scrollRegions[currentScrollRegion][1];
-		const outputMin = 0;
-		const outputMax = 1;
-
-		const normalizedValue = (value - inputMin) / (inputMax - inputMin);
-		const mappedValue = outputMin + (outputMax - outputMin) * normalizedValue;
-
-		return mappedValue;
-	}
 
 	const scrollRegions = [
-		[1, 1500]
+		[1, 1000]
 	]
 
 	const currentScrollPx = $(window).scrollTop();
 	currentScrollRegion = getRegion(currentScrollPx)
-	currentScrollRegionProgress = getProgress(currentScrollPx)
+	let currentScrollRegionProgress = () => { if (currentScrollRegion === -1) return 0; if (currentScrollRegion === 1000) return 1; return mapValue(currentScrollPx, scrollRegions[currentScrollRegion][0], scrollRegions[currentScrollRegion][1], 0,1) }
 
-	handleScroll(currentScrollPx, currentScrollRegion)
+	handleScroll(currentScrollPx, currentScrollRegion, currentScrollRegionProgress())
 });
 
 
 window.addEventListener('load', () => {
+	window.scrollTo(0, 0);
+
 	$container = $('#canvas');
 	$frame = $('#frame');
 
