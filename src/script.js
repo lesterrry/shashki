@@ -7,6 +7,7 @@ me@aydar.media
 
 import './style.css'
 import $ from 'jquery';
+import {selector} from "gsap/gsap-core";
 
 const CMYK = [
 	'#00AAE9',
@@ -21,12 +22,23 @@ const MIX = [
 	'#363639'
 ]
 
+const SCROLL_REGIONS = [
+	[1, 1000],
+	[1000, 2000]
+]
+
+const SCROLL_SUBREGIONS = [
+	4,
+	2
+]
+
 let lastTime = 0
 
 let currentScrollRegion = -1
 let regionApplied = false
 let subRegion = 0
 let subRegionApplied = false
+let modifications = []
 
 let $container, $frame
 
@@ -151,21 +163,52 @@ const animate = (currentTime) => {
 	window.requestAnimationFrame(animate)
 }
 
+const modify = (selector, css) => {
+	let node = selector
+	if (typeof selector === 'string') node = $(selector)
+
+	const prior = node.attr('style')?.toString() || ''
+	if (prior.includes(css)) return
+
+	$(node).attr('style', `${prior} ${css}`)
+	modifications.push({ region: currentScrollRegion, subRegion: subRegion, selector: selector, priorCss: prior })
+}
+
+const rollback = (affected) => {
+	for (const i of affected) {
+		let node = i.selector
+		if (typeof i.selector === 'string') node = $(i.selector);
+		// console.warn(typeof node)
+		node.attr('style', i.priorCss)
+		console.log('a', selector, i.priorCss)
+		modifications = modifications.filter(j => j.region !== i.region || (j.region === i.region && j.subRegion !== i.subRegion) )
+	}
+}
+
+const rollbackByRegion = (priorRegion) => {
+	const affected = modifications.filter(i => i.region === priorRegion)
+	rollback(affected)
+}
+
+const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
+	const affected = modifications.filter(i => i.subRegion === priorSubRegion && i.region === priorRegion) //todo
+	console.error(affected)
+	rollback(affected)
+}
+
 const handleScroll = (pxValue, region, progress) => {
-	if (region !== currentScrollRegion) subRegion = 0; subRegionApplied = true
-	let newSubRegion
 	switch (region) {
 		case -1:
-			if (!regionApplied) {
-				$('h1').css('display', '')
-				regionApplied = true
-			}
+			// if (!regionApplied) {
+			// 	$('h1').css('display', '')
+			// 	regionApplied = true
+			// }
 			break
 		case 0:
-			if (!regionApplied) {
-				normalizeFlock('s', 80)
-				regionApplied = true
-			}
+			// if (!regionApplied) {
+			// 	normalizeFlock('s', 80)
+			// 	regionApplied = true
+			// }
 
 			const slice = sliceFlock('s')
 			const mapped = Math.round(mapValue(progress, 0, 1, 0, slice.length))
@@ -174,25 +217,30 @@ const handleScroll = (pxValue, region, progress) => {
 				$([].concat(...i.slice(0, mapped))).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
 			})
 
-			newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
-			if (newSubRegion !== subRegion) subRegion = newSubRegion; subRegionApplied = false
+			// newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
+			// if (newSubRegion !== subRegion) {
+			// 	subRegion = newSubRegion;
+			// 	subRegionApplied = false
+			// }
 
 			if (!subRegionApplied) {
 				switch (subRegion) {
 					case 0:
-						$(`h1#1`).css('display', ''); $(`h1#1.stroke`).css('display', ''); $(`h1#2`).css('display', ''); $(`h1#2.stroke`).css('display', '')
+						// $(`h1#1`).css('display', ''); $(`h1#1.stroke`).css('display', ''); $(`h1#2`).css('display', ''); $(`h1#2.stroke`).css('display', '')
 						break
 					case 1:
-						$(`h1#1`).css('display', 'none')
+						// $(`h1#1`).css('display', 'none')
+						modify('h1#1', 'display: none')
 						break
 					case 2:
-						$(`h1#1.stroke`).css('display', 'none')
+						// $(`h1#1.stroke`).css('display', 'none')
+						modify('h1#1.stroke', 'display: none')
 						break
 					case 3:
-						$(`h1#2`).css('display', 'none')
+						modify('h1#2', 'display: none')
 						break
 					case 4:
-						$(`h1#2.stroke`).css('display', 'none')
+						modify('h1#2.stroke', 'display: none')
 						break
 				}
 				subRegionApplied = true
@@ -200,27 +248,29 @@ const handleScroll = (pxValue, region, progress) => {
 
 			break
 		case 1:
-			if (!regionApplied) {
-				$('h1').css('display', 'none')
-				regionApplied = true
-			}
-
-			newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
-			if (newSubRegion !== subRegion) subRegion = newSubRegion; subRegionApplied = false
+			// if (!regionApplied) {
+			// 	$('h1').css('display', 'none')
+			// 	regionApplied = true
+			// }
 
 			if (!subRegionApplied) {
 				switch (subRegion) {
 					case 0:
 						const $cell_a = $(getCell('s', 1, 2))
-						$cell_a.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
-						$cell_a.children().css('display', 'initial')
+						// $cell_a.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+						modify($cell_a, "width: 400px; height: 160px; z-index: 40; background-color: #EEEEEE")
+						modify($cell_a.children().first(), "display: initial")
+						// $cell_a.children().css('display', 'initial')
 						break
 					case 1:
 						const $cell_b = $(getCell('s', 5, 9))
-						$cell_b.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
-						$cell_b.children().css('display', 'initial')
+						// $cell_b.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
+						// $cell_b.children().css('display', 'initial')
+						modify($cell_b, "width: 400px; height: 160px; z-index: 40; background-color: #EEEEEE")
+						modify($cell_b.children().first(), "display: initial")
 						break
 				}
+				subRegionApplied = true
 			}
 
 			break
@@ -233,23 +283,42 @@ Array.prototype.random = function () {
 
 $(document).on("scroll", function() {
 	const getRegion = (value) => {
-		if (value < scrollRegions[0][0]) return -1
-		for (let i = 0; i < scrollRegions.length; i++) {
-			if (value >= scrollRegions[i][0] && value <= scrollRegions[i][1]) return i;
+		if (value < SCROLL_REGIONS[0][0]) return -1
+		for (let i = 0; i < SCROLL_REGIONS.length; i++) {
+			if (value >= SCROLL_REGIONS[i][0] && value <= SCROLL_REGIONS[i][1]) return i;
 		}
 		return 1000
 	}
 
-	const scrollRegions = [
-		[1, 1000],
-		[1000, 2000]
-	]
+	let currentScrollRegionProgress = () => { if (currentScrollRegion === -1) return 0; if (currentScrollRegion === 1000) return 1; return mapValue(currentScrollPx, SCROLL_REGIONS[currentScrollRegion][0], SCROLL_REGIONS[currentScrollRegion][1], 0,1) }
 
 	const currentScrollPx = $(window).scrollTop();
-	const newScrollRegion = getRegion(currentScrollPx)
-	if (newScrollRegion !== currentScrollRegion) currentScrollRegion = newScrollRegion; regionApplied = false
+	let priorRegion = currentScrollRegion
+	let regionBumped = false
 
-	let currentScrollRegionProgress = () => { if (currentScrollRegion === -1) return 0; if (currentScrollRegion === 1000) return 1; return mapValue(currentScrollPx, scrollRegions[currentScrollRegion][0], scrollRegions[currentScrollRegion][1], 0,1) }
+	const newScrollRegion = getRegion(currentScrollPx)
+	if (newScrollRegion !== currentScrollRegion) {
+		if (newScrollRegion < currentScrollRegion) {
+			rollbackByRegion(currentScrollRegion)
+		} else {
+			regionApplied = false
+			regionBumped = true
+			priorRegion = currentScrollRegion
+		}
+		currentScrollRegion = newScrollRegion;
+	}
+
+	const newSubRegion = Math.round(mapValue(currentScrollRegionProgress(), 0, 1, 0, SCROLL_SUBREGIONS[currentScrollRegion]))
+	if (newSubRegion !== subRegion) {
+		if (newSubRegion < subRegion && !regionBumped) {
+			rollbackBySubRegion(subRegion, priorRegion)
+		} else {
+			subRegionApplied = false
+		}
+		subRegion = newSubRegion;
+	}
+	console.log(subRegion, newSubRegion)
+	// console.log(SCROLL_SUBREGIONS[currentScrollRegion])
 
 	handleScroll(currentScrollPx, currentScrollRegion, currentScrollRegionProgress())
 });
