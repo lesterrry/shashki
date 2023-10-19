@@ -21,11 +21,8 @@ const MIX = [
 	'#363639'
 ]
 
-let flocks = []
-let headings = []
 let lastTime = 0
 
-let currentScrollPx = 0
 let currentScrollRegion = -1
 let regionApplied = false
 let subRegion = 0
@@ -54,7 +51,7 @@ const createFlock = (id, cellSize, rows, columns, color) => {
 	const [width, height] = [(cellSize * columns) + 'px', (cellSize * rows) + 'px']
 
 	const $flock = $('<div></div>');
-	$flock.addClass(flocks.length === 0 ? 'flock primary' : 'flock')
+	$flock.addClass('flock')
 	$flock.attr('id', id)
 	$flock.data('rows', rows)
 	$flock.data('columns', columns)
@@ -70,7 +67,6 @@ const createFlock = (id, cellSize, rows, columns, color) => {
 		}
 	}
 
-	flocks.push($flock)
 	$container.append($flock)
 }
 
@@ -82,12 +78,11 @@ const repaintFlock = (id, color) => {
 
 	$children.each(function (i) {
 		const [row, column] = [Math.floor(i / columns), i % columns]
-		$(this).css({'background-color': resolveColor({ array: CMYK, makeCheckers: true }, 0, row + column), 'filter': ''})
+		$(this).css({'background-color': resolveColor(color, 0, row + column), 'filter': ''})
 	})
 }
 
 const normalizeFlock = (id, cellSize) => {
-	const $flock = $(`.flock#${id}`)
 	const $children = $(`.flock#${id} > *`)
 
 	$children.each(function (i) {
@@ -138,24 +133,6 @@ const mapValue = (value, l ,r, min, max) => {
 	const mappedValue = min + (max - min) * normalizedValue;
 	// console.log(mappedValue)
 	return mappedValue;
-}
-
-const createHeading = (id, text, x, y, additionalStyles = null) => {
-	const $heading = $('<h1></h1>')
-	$heading.html(text)
-	$heading.attr('id', id)
-	$heading.css('top', calc(50, y))
-	$heading.css('left', calc(50, x))
-
-	for (let i in additionalStyles) $heading.css(i, additionalStyles[i]);
-
-	$container.append($heading)
-
-	const $stroke = $heading.clone(true)
-	$stroke.addClass('stroke')
-	$container.append($stroke)
-
-	headings.push($heading)
 }
 
 const createParagraphInCell = (flockId, row, column, text) => {
@@ -287,9 +264,6 @@ window.addEventListener('load', () => {
 
 
 	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
-
-	createHeading('1', 'общее и частное<br>московских таксистов', -590, -260)
-	createHeading('2', 'сквозь оформление<br>машин такси', -110, 150, { textAlign: 'right' })
 	createParagraphInCell('s', 1, 2, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
 	createParagraphInCell('s', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
 
