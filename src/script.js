@@ -36,7 +36,7 @@ const SCROLL_REGIONS = [
 
 const SCROLL_SUBREGIONS = [
 	4,
-	1,
+	3,
 	2
 ]
 
@@ -136,7 +136,6 @@ const sliceFlock = (id) => {
 const getCell = (flockId, row, column) => {
 	const $flock = $(`.flock#${flockId}`)
 	const columns = $flock.data('columns')
-	const rows = $flock.data('rows')
 
 	const index = (row * columns) + column;
 	return $flock.children()[index];
@@ -155,9 +154,10 @@ const mapValue = (value, l ,r, min, max) => {
 	return mappedValue;
 }
 
-const createParagraphInCell = (flockId, row, column, text) => {
-	const cell = getCell(flockId, row, column)
-	$(cell).append($(`<p>${text}</p>`))
+const createParagraphInCell = (id, flockId, row, column, text) => {
+	const cell = $(getCell(flockId, row, column))
+	cell.attr('id', id)
+	cell.append($(`<p>${text}</p>`))
 }
 
 const animate = (currentTime) => {
@@ -178,7 +178,7 @@ const modify = (selector, css) => {
 	const prior = node.attr('style')?.toString() || ''
 	if (prior.includes(css)) return
 
-	$(node).attr('style', `${prior} ${css}`)
+	$(node).attr('style', `${prior} ${css};`)
 	modifications.push({ region: currentScrollRegion, subRegion: subRegion, selector: selector, priorCss: prior })
 }
 
@@ -199,7 +199,7 @@ const rollbackByRegion = (priorRegion) => {
 }
 
 const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
-	const affected = modifications.filter(i => i.subRegion === priorSubRegion && i.region === priorRegion) //todo
+	const affected = modifications.filter(i => i.subRegion === priorSubRegion && i.region === priorRegion)
 	console.error(affected)
 	rollback(affected)
 }
@@ -267,17 +267,18 @@ const handleScroll = (pxValue, region, progress) => {
 			// 	regionApplied = true
 			// }
 
+			const $cell_a = $(getCell('s', 1, 3))
+			const $cell_b = $(getCell('s', 5, 9))
+
 			if (!subRegionApplied) {
 				switch (subRegion) {
 					case 0:
-						const $cell_a = $(getCell('s', 1, 2))
 						// $cell_a.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
 						modify($cell_a, "width: 400px; height: 160px; z-index: 40; background-color: #EEEEEE")
 						modify($cell_a.children().first(), "display: initial")
 						// $cell_a.children().css('display', 'initial')
 						break
 					case 1:
-						const $cell_b = $(getCell('s', 5, 9))
 						// $cell_b.css({ 'width': '400px', 'height': '160px', 'z-index': '40', 'background-color': '#EEEEEE' })
 						// $cell_b.children().css('display', 'initial')
 						modify($cell_b, "width: 400px; height: 160px; z-index: 40; background-color: #EEEEEE")
@@ -289,6 +290,32 @@ const handleScroll = (pxValue, region, progress) => {
 						modify($(getCell('s', 0, 1)), `background-image: url(${TAXI_4}); filter: initial`)
 						modify($(getCell('s', 7, 2)), `background-image: url(${TAXI_5}); filter: initial`)
 						modify($(getCell('s', 1, 12)), `background-image: url(${TAXI_6}); filter: initial`)
+						break
+					case 2:
+						modify($cell_a, "left: 560px")
+
+						modify($cell_a.children().first(), "display: none")
+						modify($cell_a.children().last(), "display: initial")
+
+						modify($(getCell('s', 7, 9)), `background-image: none; background-color: #FFF34A`)
+						modify($(getCell('s', 4, 7)), `background-image: none; background-color: #FFF34A`)
+						modify($(getCell('s', 3, 4)), `background-image: none; background-color: #FFF34A`)
+						modify($(getCell('s', 0, 1)), `background-image: none; background-color: #FFF34A`)
+						modify($(getCell('s', 7, 2)), `background-image: none; background-color: #FFF34A`)
+						modify($(getCell('s', 1, 12)), `background-image: none; background-color: #FFF34A`)
+						break
+					case 3:
+						modify($cell_b, "left: 160px")
+
+						modify($cell_b.children().first(), "display: none")
+						modify($cell_b.children().last(), "display: initial")
+
+						modify($(getCell('s', 5, 6)), `filter: initial; background-color: #FFF34A`)
+						modify($(getCell('s', 6, 10)), `filter: initial; background-color: #FFF34A`)
+						modify($(getCell('s', 1, 1)), `filter: initial; background-color: #FFF34A`)
+						modify($(getCell('s', 2, 3)), `filter: initial; background-color: #FFF34A`)
+						modify($(getCell('s', 5, 4)), `filter: initial; background-color: #FFF34A`)
+						modify($(getCell('s', 3, 10)), `filter: initial; background-color: #FFF34A`)
 						break
 				}
 				subRegionApplied = true
@@ -352,8 +379,11 @@ window.addEventListener('load', () => {
 	$frame = $('#frame');
 
 	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
-	createParagraphInCell('s', 1, 2, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
-	createParagraphInCell('s', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
+	createParagraphInCell('a', 's', 1, 3, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
+	createParagraphInCell('a', 's', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
+
+	createParagraphInCell('b', 's', 1, 3, 'Разумеется, как любой дом, автомобиль постепенно обрастает чертами своего хозяина, и начинает походить на него')
+	createParagraphInCell('b', 's', 5, 9, 'Я решил исследовать эту тему и месяц ездил по москве в надежде отыскать среди таксистов отголосок коллективного разума — нечто всевоплощающее и единое, душу безустанных московских извозчиков.')
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
