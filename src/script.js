@@ -7,7 +7,13 @@ me@aydar.media
 
 import './style.css'
 import $ from 'jquery';
-import {selector} from "gsap/gsap-core";
+
+import TAXI_1 from "../static/img/taxi-1.jpg"
+import TAXI_2 from "../static/img/taxi-2.jpg"
+import TAXI_3 from "../static/img/taxi-3.png"
+import TAXI_4 from "../static/img/taxi-4.jpg"
+import TAXI_5 from "../static/img/taxi-5.jpg"
+import TAXI_6 from "../static/img/taxi-6.jpg"
 
 const CMYK = [
 	'#00AAE9',
@@ -24,11 +30,13 @@ const MIX = [
 
 const SCROLL_REGIONS = [
 	[1, 1000],
-	[1000, 2000]
+	[1000, 2000],
+	[2000, 1000]
 ]
 
 const SCROLL_SUBREGIONS = [
 	4,
+	1,
 	2
 ]
 
@@ -274,10 +282,19 @@ const handleScroll = (pxValue, region, progress) => {
 						// $cell_b.children().css('display', 'initial')
 						modify($cell_b, "width: 400px; height: 160px; z-index: 40; background-color: #EEEEEE")
 						modify($cell_b.children().first(), "display: initial")
+
+						modify($(getCell('s', 7, 9)), `background-image: url(${TAXI_1}); filter: initial`)
+						modify($(getCell('s', 4, 7)), `background-image: url(${TAXI_2}); filter: initial`)
+						modify($(getCell('s', 3, 4)), `background-image: url(${TAXI_3}); filter: initial`)
+						modify($(getCell('s', 0, 1)), `background-image: url(${TAXI_4}); filter: initial`)
+						modify($(getCell('s', 7, 2)), `background-image: url(${TAXI_5}); filter: initial`)
+						modify($(getCell('s', 1, 12)), `background-image: url(${TAXI_6}); filter: initial`)
 						break
 				}
 				subRegionApplied = true
 			}
+			break
+		case 2:
 
 			break
 	}
@@ -331,16 +348,15 @@ $(document).on("scroll", function() {
 
 
 window.addEventListener('load', () => {
-	window.scrollTo(0, 0);
-
 	$container = $('#canvas');
 	$frame = $('#frame');
-
-
 
 	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
 	createParagraphInCell('s', 1, 2, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
 	createParagraphInCell('s', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
 
-	window.requestAnimationFrame(animate)
+	setTimeout(() => {
+		window.scrollTo(0, 0);
+		window.requestAnimationFrame(animate)
+	}, 500)
 });

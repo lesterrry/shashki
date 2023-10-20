@@ -44,8 +44,9 @@ h1 {
 p {
 	font-size: 16px;
 	font-family: Gramatika, sans-serif;
-	-webkit-text-stroke: 0.5px black;
-	transform: scaleY(1.5);
+	-webkit-text-stroke: 0.075em black;
+	transform: scaleY(1.25);
+	letter-spacing: 0.02em;
 }
 
 h1.stroke {
@@ -113,6 +114,7 @@ h1.stroke {
 	display: flex;
 	align-items: center;
 	overflow: hidden;
+	background-size: cover;
 }
 
 .cell > p {
