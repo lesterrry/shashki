@@ -180,7 +180,7 @@ const rollback = (affected) => {
 		if (typeof i.selector === 'string') node = $(i.selector);
 		// console.warn(typeof node)
 		node.attr('style', i.priorCss)
-		console.log('a', selector, i.priorCss)
+		// console.log('a', selector, i.priorCss)
 		modifications = modifications.filter(j => j.region !== i.region || (j.region === i.region && j.subRegion !== i.subRegion) )
 	}
 }
@@ -212,10 +212,17 @@ const handleScroll = (pxValue, region, progress) => {
 
 			const slice = sliceFlock('s')
 			const mapped = Math.round(mapValue(progress, 0, 1, 0, slice.length))
+			console.log(mapped)
 
-			slice.forEach((i) => {
-				$([].concat(...i.slice(0, mapped))).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
-			})
+			for (let i = 0; i < slice.length; i++) {
+				const multiplier = mapped - i
+				$(slice[i]).css('filter', `grayscale(${progress * slice.length * (multiplier) * 100}%)`)
+			}
+
+			// slice.forEach((i) => {
+			// 	$(i.slice(0, mapped)).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
+			// 	$(i.slice(mapped, )).css('filter', `grayscale(${(progress * slice.length) * 100}%)`)
+			// })
 
 			// newSubRegion = Math.round(mapValue(progress, 0, 1, 0, 4))
 			// if (newSubRegion !== subRegion) {
@@ -233,7 +240,6 @@ const handleScroll = (pxValue, region, progress) => {
 						modify('h1#1', 'display: none')
 						break
 					case 2:
-						// $(`h1#1.stroke`).css('display', 'none')
 						modify('h1#1.stroke', 'display: none')
 						break
 					case 3:
@@ -317,7 +323,7 @@ $(document).on("scroll", function() {
 		}
 		subRegion = newSubRegion;
 	}
-	console.log(subRegion, newSubRegion)
+	// console.log(subRegion, newSubRegion)
 	// console.log(SCROLL_SUBREGIONS[currentScrollRegion])
 
 	handleScroll(currentScrollPx, currentScrollRegion, currentScrollRegionProgress())
