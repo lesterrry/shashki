@@ -15,13 +15,19 @@ import TAXI_4 from "../static/img/taxi-4.jpg"
 import TAXI_5 from "../static/img/taxi-5.jpg"
 import TAXI_6 from "../static/img/taxi-6.jpg"
 
-const CMYK = [
+const C_M_Y_K = [
 	'#00AAE9',
 	'#D92D8A',
 	'#FFF34A',
 	'#000000'
 ]
-const MIX = [
+const CM_M_CY_CMY = [
+	'#2F308C',
+	'#D92D8A',
+	'#00A359',
+	'#363639'
+]
+const CM_MY_CY_CMY = [
 	'#2F308C',
 	'#DA3832',
 	'#00A359',
@@ -30,8 +36,8 @@ const MIX = [
 
 const SCROLL_REGIONS = [
 	[1, 1000],
-	[1000, 2000],
-	[2000, 1000]
+	[1000, 3000],
+	[3000, 6000]
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -50,6 +56,8 @@ let modifications = []
 
 let $container, $frame
 
+const slices = {}
+
 const createCell = (size, color) => {
 	const $cell = $('<picture></picture>')
 	$cell.css('width', size + 'px');
@@ -67,7 +75,7 @@ const resolveColor = (color, arrayIndex = 0, randomIndex = 0) => {
 	return Array.isArray(color) ? color[arrayIndex] : createRandomColor(color, randomIndex)
 }
 
-const createFlock = (id, cellSize, rows, columns, color) => {
+const createFlock = (id, cellSize, rows, columns, color, hidden) => {
 	const [width, height] = [(cellSize * columns) + 'px', (cellSize * rows) + 'px']
 
 	const $flock = $('<div></div>');
@@ -77,6 +85,7 @@ const createFlock = (id, cellSize, rows, columns, color) => {
 	$flock.data('columns', columns)
 	$flock.css('width', width); $frame.css('width', width)
 	$flock.css('height', height); $frame.css('height', height);
+	if (hidden) $flock.css('display', 'none');
 
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < columns; x++) {
@@ -164,7 +173,7 @@ const animate = (currentTime) => {
 	const deltaTime = (currentTime - lastTime) / 1000;  // in seconds
 
 	if (deltaTime >= 1) {
-		if (currentScrollRegion === -1) repaintFlock('s', { array: CMYK, makeCheckers: true })
+		if (currentScrollRegion === -1) repaintFlock('s', { array: C_M_Y_K, makeCheckers: true })
 		lastTime = currentTime
 	}
 
@@ -205,6 +214,9 @@ const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
 }
 
 const handleScroll = (pxValue, region, progress) => {
+	const slice_s = slices['s']
+	const mapped = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
+
 	switch (region) {
 		case -1:
 			// if (!regionApplied) {
@@ -218,13 +230,11 @@ const handleScroll = (pxValue, region, progress) => {
 			// 	regionApplied = true
 			// }
 
-			const slice = sliceFlock('s')
-			const mapped = Math.round(mapValue(progress, 0, 1, 0, slice.length))
 			console.log(mapped)
 
-			for (let i = 0; i < slice.length; i++) {
+			for (let i = 0; i < slice_s.length; i++) {
 				const multiplier = mapped - i
-				$(slice[i]).css('filter', `grayscale(${progress * slice.length * (multiplier) * 100}%)`)
+				$(slice_s[i]).css('filter', `grayscale(${progress * slice_s.length * (multiplier) * 100}%)`)
 			}
 
 			// slice.forEach((i) => {
@@ -297,6 +307,8 @@ const handleScroll = (pxValue, region, progress) => {
 						modify($cell_a.children().first(), "display: none")
 						modify($cell_a.children().last(), "display: initial")
 
+						modify($cell_b.children().first(), "opacity: 10%")
+
 						modify($(getCell('s', 7, 9)), `background-image: none; background-color: #FFF34A`)
 						modify($(getCell('s', 4, 7)), `background-image: none; background-color: #FFF34A`)
 						modify($(getCell('s', 3, 4)), `background-image: none; background-color: #FFF34A`)
@@ -322,7 +334,14 @@ const handleScroll = (pxValue, region, progress) => {
 			}
 			break
 		case 2:
-
+			for (let i = 0; i < slice_s.length; i++) {
+				const multiplier = mapped - i
+				$(slice_s[i]).css('opacity', `${(slice_s.length * (multiplier)) * -100}%`)
+			}
+			break
+		case 3:
+			modify('.flock#s', 'display: none')
+			modify('.flock#m', 'display: initial')
 			break
 	}
 }
@@ -378,12 +397,16 @@ window.addEventListener('load', () => {
 	$container = $('#canvas');
 	$frame = $('#frame');
 
-	createFlock('s', 80, 8, 16, { array: CMYK, makeCheckers: true })
+	createFlock('s', 80, 8, 16, { array: C_M_Y_K, makeCheckers: true }, false)
+	slices['s'] = sliceFlock('s')
+
 	createParagraphInCell('a', 's', 1, 3, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
 	createParagraphInCell('a', 's', 5, 9, 'Эта тихая экспансия приучила людей не замечать ни водителей такси, ни их автомобили. Тем временем для самих таксистов машина — и верный друг, и бессменный попутчик, и надежный кормилец, и — временами — уютный дом.')
 
 	createParagraphInCell('b', 's', 1, 3, 'Разумеется, как любой дом, автомобиль постепенно обрастает чертами своего хозяина, и начинает походить на него')
 	createParagraphInCell('b', 's', 5, 9, 'Я решил исследовать эту тему и месяц ездил по москве в надежде отыскать среди таксистов отголосок коллективного разума — нечто всевоплощающее и единое, душу безустанных московских извозчиков.')
+
+	createFlock('m', 60, 11, 22, { array: CM_M_CY_CMY, makeCheckers: true }, true)
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
