@@ -5,6 +5,8 @@ Handcrafted by Aydar N.
 me@aydar.media
 *************************/
 
+// TODO: нужен реалити чек
+
 import './style.css'
 import $ from 'jquery';
 
@@ -34,16 +36,22 @@ const CM_MY_CY_CMY = [
 	'#363639'
 ]
 
-const SCROLL_REGIONS = [
+const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[1, 1000],
 	[1000, 3000],
-	[3000, 6000]
+	[3000, 6000],
+	[6000, 8000],
+	[8000, 10000],
+	[10000, 11000]
 ]
 
 const SCROLL_SUBREGIONS = [
 	4,
 	3,
-	2
+	2,
+	0,
+	2,
+	0
 ]
 
 let lastTime = 0
@@ -169,11 +177,22 @@ const createParagraphInCell = (id, flockId, row, column, text) => {
 	cell.append($(`<p>${text}</p>`))
 }
 
+const makeHeadingStrokes = () => {
+	const headings = $('.make-stroke')
+	headings.each(function() {
+		const element = $(this)
+		const cloned = element.clone(true)
+		cloned.attr('class', 'stroke')
+		element.after(cloned)
+	})
+}
+
 const animate = (currentTime) => {
 	const deltaTime = (currentTime - lastTime) / 1000;  // in seconds
 
 	if (deltaTime >= 1) {
 		if (currentScrollRegion === -1) repaintFlock('s', { array: C_M_Y_K, makeCheckers: true })
+		if (currentScrollRegion === 3 ?? subRegion === 0) repaintFlock('m', { array: CM_M_CY_CMY, makeCheckers: true })
 		lastTime = currentTime
 	}
 
@@ -185,7 +204,7 @@ const modify = (selector, css) => {
 	if (typeof selector === 'string') node = $(selector)
 
 	const prior = node.attr('style')?.toString() || ''
-	if (prior.includes(css)) return
+	if (prior.endsWith(`${css};`)) return
 
 	$(node).attr('style', `${prior} ${css};`)
 	modifications.push({ region: currentScrollRegion, subRegion: subRegion, selector: selector, priorCss: prior })
@@ -215,7 +234,9 @@ const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
 
 const handleScroll = (pxValue, region, progress) => {
 	const slice_s = slices['s']
-	const mapped = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
+	const slice_m = slices['m']
+	const mapped_s = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
+	const mapped_m = Math.round(mapValue(progress, 0, 1, 0, slice_m.length))
 
 	switch (region) {
 		case -1:
@@ -230,11 +251,11 @@ const handleScroll = (pxValue, region, progress) => {
 			// 	regionApplied = true
 			// }
 
-			console.log(mapped)
+			console.log(mapped_s)
 
 			for (let i = 0; i < slice_s.length; i++) {
-				const multiplier = mapped - i
-				$(slice_s[i]).css('filter', `grayscale(${progress * slice_s.length * (multiplier) * 100}%)`)
+				const multiplier = mapped_s - i
+				$(slice_s[i]).css('filter', `grayscale(${slice_s.length * (multiplier) * 100}%)`)
 			}
 
 			// slice.forEach((i) => {
@@ -335,13 +356,48 @@ const handleScroll = (pxValue, region, progress) => {
 			break
 		case 2:
 			for (let i = 0; i < slice_s.length; i++) {
-				const multiplier = mapped - i
-				$(slice_s[i]).css('opacity', `${(slice_s.length * (multiplier)) * -100}%`)
+				let $filteredElements = $(slice_s[i]).filter(function() { return !$(this).is('.cell#b') });
+				$($filteredElements).css('scale', `${1 - progress}`)
 			}
 			break
 		case 3:
 			modify('.flock#s', 'display: none')
 			modify('.flock#m', 'display: initial')
+
+			modify('h1#3', 'display: initial')
+			modify('h1#3.stroke', 'display: initial')
+			modify('h1#4', 'display: initial')
+			modify('h1#4.stroke', 'display: initial')
+
+			modify('p#5', 'display: initial')
+			modify('p#6', 'display: initial')
+			break
+		case 4:
+			for (let i = 0; i < slice_m.length; i++) {
+				const multiplier = mapped_m - i
+				$(slice_m[i]).css('opacity', `${(slice_m.length * (multiplier)) * -100}%`)
+			}
+			if (!subRegionApplied) {
+				console.log(subRegion)
+				switch (subRegion) {
+					case 0:
+						// $(`h1#1`).css('display', ''); $(`h1#1.stroke`).css('display', ''); $(`h1#2`).css('display', ''); $(`h1#2.stroke`).css('display', '')
+						break
+					case 1:
+						// $(`h1#1`).css('display', 'none')
+						modify('h1#3', 'display: none')
+						modify('h1#3.stroke', 'display: none')
+						break
+					case 2:
+						modify('h1#4', 'display: none')
+						modify('h1#4.stroke', 'display: none')
+						break
+				}
+				subRegionApplied = true
+			}
+			break
+		case 5:
+			modify('.flock#m', 'display: none')
 			break
 	}
 }
@@ -397,6 +453,8 @@ window.addEventListener('load', () => {
 	$container = $('#canvas');
 	$frame = $('#frame');
 
+	makeHeadingStrokes()
+
 	createFlock('s', 80, 8, 16, { array: C_M_Y_K, makeCheckers: true }, false)
 	slices['s'] = sliceFlock('s')
 
@@ -407,6 +465,7 @@ window.addEventListener('load', () => {
 	createParagraphInCell('b', 's', 5, 9, 'Я решил исследовать эту тему и месяц ездил по москве в надежде отыскать среди таксистов отголосок коллективного разума — нечто всевоплощающее и единое, душу безустанных московских извозчиков.')
 
 	createFlock('m', 60, 11, 22, { array: CM_M_CY_CMY, makeCheckers: true }, true)
+	slices['m'] = sliceFlock('m')
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
