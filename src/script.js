@@ -17,6 +17,18 @@ import TAXI_4 from "../static/img/taxi-4.jpg"
 import TAXI_5 from "../static/img/taxi-5.jpg"
 import TAXI_6 from "../static/img/taxi-6.jpg"
 
+import TAXI_7 from "../static/img/taxi-7.png"
+import TAXI_8 from "../static/img/taxi-8.png"
+import TAXI_9 from "../static/img/taxi-9.png"
+import TAXI_10 from "../static/img/taxi-10.png"
+import TAXI_11 from "../static/img/taxi-11.png"
+import TAXI_12 from "../static/img/taxi-12.png"
+import TAXI_13 from "../static/img/taxi-13.png"
+import TAXI_14 from "../static/img/taxi-14.png"
+import TAXI_15 from "../static/img/taxi-15.png"
+import TAXI_16 from "../static/img/taxi-16.png"
+import TAXI_17 from "../static/img/taxi-17.png"
+
 const C_M_Y_K = [
 	'#00AAE9',
 	'#D92D8A',
@@ -41,8 +53,8 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[1000, 3000],
 	[3000, 6000],
 	[6000, 8000],
-	[8000, 10000],
-	[10000, 11000]
+	[8000, 12000],
+	[12000, 13000]
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -50,8 +62,8 @@ const SCROLL_SUBREGIONS = [
 	3,
 	2,
 	0,
-	2,
-	0
+	3,
+	11
 ]
 
 let lastTime = 0
@@ -83,7 +95,7 @@ const resolveColor = (color, arrayIndex = 0, randomIndex = 0) => {
 	return Array.isArray(color) ? color[arrayIndex] : createRandomColor(color, randomIndex)
 }
 
-const createFlock = (id, cellSize, rows, columns, color, hidden) => {
+const createFlock = (id, cellSize, rows, columns, color, hidden, suitFrame, position = null) => {
 	const [width, height] = [(cellSize * columns) + 'px', (cellSize * rows) + 'px']
 
 	const $flock = $('<div></div>');
@@ -91,9 +103,12 @@ const createFlock = (id, cellSize, rows, columns, color, hidden) => {
 	$flock.attr('id', id)
 	$flock.data('rows', rows)
 	$flock.data('columns', columns)
-	$flock.css('width', width); $frame.css('width', width)
-	$flock.css('height', height); $frame.css('height', height);
+	$flock.css('width', width);
+	$flock.css('height', height);
 	if (hidden) $flock.css('display', 'none');
+	if (position) $flock.css({ 'top': calc(50, position[0]), 'left': calc(50, position[1]) })
+
+	if (suitFrame) { $frame.css('width', width); $frame.css('height', height) }
 
 	for (let y = 0; y < rows; y++) {
 		for (let x = 0; x < columns; x++) {
@@ -236,7 +251,7 @@ const handleScroll = (pxValue, region, progress) => {
 	const slice_s = slices['s']
 	const slice_m = slices['m']
 	const mapped_s = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
-	const mapped_m = Math.round(mapValue(progress, 0, 1, 0, slice_m.length))
+	const mapped_m = Math.round(mapValue(progress, 0, 1, 0, slice_m.length + 10))
 
 	switch (region) {
 		case -1:
@@ -364,33 +379,35 @@ const handleScroll = (pxValue, region, progress) => {
 			modify('.flock#s', 'display: none')
 			modify('.flock#m', 'display: initial')
 
+			modify($frame, `width: 1320px; height: 660px`)
+
 			modify('h1#3', 'display: initial')
 			modify('h1#3.stroke', 'display: initial')
 			modify('h1#4', 'display: initial')
 			modify('h1#4.stroke', 'display: initial')
 
-			modify('p#5', 'display: initial')
-			modify('p#6', 'display: initial')
 			break
 		case 4:
 			for (let i = 0; i < slice_m.length; i++) {
 				const multiplier = mapped_m - i
-				$(slice_m[i]).css('opacity', `${(slice_m.length * (multiplier)) * -100}%`)
+				$(slice_m[i]).css('opacity', `${(slice_m.length * (multiplier)) * -10}%`)
 			}
 			if (!subRegionApplied) {
-				console.log(subRegion)
 				switch (subRegion) {
-					case 0:
-						// $(`h1#1`).css('display', ''); $(`h1#1.stroke`).css('display', ''); $(`h1#2`).css('display', ''); $(`h1#2.stroke`).css('display', '')
-						break
 					case 1:
-						// $(`h1#1`).css('display', 'none')
 						modify('h1#3', 'display: none')
 						modify('h1#3.stroke', 'display: none')
+						modify('p#5', 'display: initial')
 						break
 					case 2:
 						modify('h1#4', 'display: none')
 						modify('h1#4.stroke', 'display: none')
+						modify('p#6', 'display: initial')
+						break
+					case 3:
+						modify('p#7', 'display: initial')
+						modify('.flock#xs', 'display: initial')
+						modify($frame, `width: 1340px; height: 700px; opacity: 0%`)
 						break
 				}
 				subRegionApplied = true
@@ -398,6 +415,46 @@ const handleScroll = (pxValue, region, progress) => {
 			break
 		case 5:
 			modify('.flock#m', 'display: none')
+
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 0:
+						modify($(getCell('xs', 0, 1)), `background-image: url(${TAXI_7}); filter: initial`)
+						break
+					case 1:
+						modify($(getCell('xs', 1, 2)), `background-image: url(${TAXI_8}); filter: initial`)
+						break
+					case 2:
+						modify($(getCell('xs', 0, 3)), `background-image: url(${TAXI_9}); filter: initial`)
+						break
+					case 3:
+						modify($(getCell('xs', 1, 4)), `background-image: url(${TAXI_10}); filter: initial`)
+						break
+					case 4:
+						modify($(getCell('xs', 0, 5)), `background-image: url(${TAXI_11}); filter: initial`)
+						break
+					case 5:
+						modify($(getCell('xs', 1, 6)), `background-image: url(${TAXI_12}); filter: initial`)
+						break
+					case 6:
+						modify($(getCell('xs', 0, 7)), `background-image: url(${TAXI_13}); filter: initial`)
+						break
+					case 7:
+						modify($(getCell('xs', 1, 8)), `background-image: url(${TAXI_14}); filter: initial`)
+						break
+					case 8:
+						modify($(getCell('xs', 0, 9)), `background-image: url(${TAXI_15}); filter: initial`)
+						break
+					case 9:
+						modify($(getCell('xs', 1, 10)), `background-image: url(${TAXI_16}); filter: initial`)
+						break
+					case 10:
+						modify($(getCell('xs', 0, 11)), `background-image: url(${TAXI_17}); filter: initial`)
+						break
+				}
+				subRegionApplied = true
+			}
+
 			break
 	}
 }
@@ -455,7 +512,7 @@ window.addEventListener('load', () => {
 
 	makeHeadingStrokes()
 
-	createFlock('s', 80, 8, 16, { array: C_M_Y_K, makeCheckers: true }, false)
+	createFlock('s', 80, 8, 16, { array: C_M_Y_K, makeCheckers: true }, false, true)
 	slices['s'] = sliceFlock('s')
 
 	createParagraphInCell('a', 's', 1, 3, 'Миллионы заказов ежедневно, десятки тысяч машин и невырезаемый желто-черный фон, навсегда сросшийся с москвой — такси везде и повсюду, в каждом дворе и на каждом перекрестке.')
@@ -464,8 +521,10 @@ window.addEventListener('load', () => {
 	createParagraphInCell('b', 's', 1, 3, 'Разумеется, как любой дом, автомобиль постепенно обрастает чертами своего хозяина, и начинает походить на него')
 	createParagraphInCell('b', 's', 5, 9, 'Я решил исследовать эту тему и месяц ездил по москве в надежде отыскать среди таксистов отголосок коллективного разума — нечто всевоплощающее и единое, душу безустанных московских извозчиков.')
 
-	createFlock('m', 60, 11, 22, { array: CM_M_CY_CMY, makeCheckers: true }, true)
+	createFlock('m', 60, 11, 22, { array: CM_M_CY_CMY, makeCheckers: true }, true, false)
 	slices['m'] = sliceFlock('m')
+
+	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);

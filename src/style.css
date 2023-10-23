@@ -66,6 +66,7 @@ h1.stroke {
 #frame {
 	position: absolute;
 	margin: auto;
+	z-index: 30;
 }
 
 #canvas {
