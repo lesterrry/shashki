@@ -27,7 +27,7 @@ img, svg {
 	-webkit-user-select: none;
 }
 
-h1, img.text {
+h1, img.text, .top {
 	z-index: 30;
 }
 

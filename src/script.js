@@ -49,12 +49,13 @@ const CM_MY_CY_CMY = [
 ]
 
 const SCROLL_REGIONS = [  // todo длины вместо диапазонов
-	[1, 1000],
-	[1000, 3000],
-	[3000, 6000],
-	[6000, 8000],
-	[8000, 12000],
-	[12000, 13000]
+	[1, 1000],  // цмик в начале пока исчезают слова
+	[1000, 3000],  // рассказ четыре абзаца
+	[3000, 6000],  // скейлдаун
+	[6000, 8000],  // микс цмика
+	[8000, 12000],  // цмик растворяется
+	[12000, 15000],  // фотки машин внизу
+	[15000, 20000]  // много фоток машин
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -63,7 +64,8 @@ const SCROLL_SUBREGIONS = [
 	2,
 	0,
 	3,
-	11
+	14,
+	12
 ]
 
 let lastTime = 0
@@ -451,6 +453,35 @@ const handleScroll = (pxValue, region, progress) => {
 					case 10:
 						modify($(getCell('xs', 0, 11)), `background-image: url(${TAXI_17}); filter: initial`)
 						break
+					case 11:
+						modify('p#5', 'opacity: 15%')
+						modify('p#6', 'opacity: 15%')
+						modify('p#7', 'opacity: 15%')
+						modify('p#8', 'opacity: 100%')
+
+						modify($(getCell('xs', 0, 1)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 1, 2)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 0, 3)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 1, 4)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 0, 5)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 1, 6)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 0, 7)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 1, 8)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 0, 9)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 1, 10)), `filter: grayscale(100%)`)
+						modify($(getCell('xs', 0, 11)), `filter: grayscale(100%)`)
+				}
+				subRegionApplied = true
+			}
+
+			break
+
+		case 6:
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 1:
+						modify('.flock#xs2', 'display: initial')
+						break
 				}
 				subRegionApplied = true
 			}
@@ -525,6 +556,7 @@ window.addEventListener('load', () => {
 	slices['m'] = sliceFlock('m')
 
 	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
+	createFlock('xs2', 110, 6, 13, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [-540, -640])
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
