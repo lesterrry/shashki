@@ -50,8 +50,8 @@ const CM_M_CY_CMY = [
 	'#00A359',
 	'#363639'
 ]
-const CM_MY_CY_CMY = [
-	'#2F308C',
+const C_MY_CY_CMY = [
+	'#00AAE9',
 	'#DA3832',
 	'#00A359',
 	'#363639'
@@ -77,7 +77,8 @@ const SCROLL_SUBREGIONS = [
 	3,
 	14,
 	12,
-	1
+	0,
+	0
 ]
 
 let lastTime = 0
@@ -221,7 +222,9 @@ const animate = (currentTime) => {
 
 	if (deltaTime >= 1) {
 		if (currentScrollRegion === -1) repaintFlock('s', { array: C_M_Y_K, makeCheckers: true })
-		if (currentScrollRegion === 3 ?? subRegion === 0) repaintFlock('m', { array: CM_M_CY_CMY, makeCheckers: true })
+		if (currentScrollRegion === 3 && subRegion === 0) repaintFlock('m', { array: CM_M_CY_CMY, makeCheckers: true })
+		if (currentScrollRegion === 8 && subRegion === 0) repaintFlock('m2', { array: C_MY_CY_CMY, makeCheckers: true })
+		console.log(currentScrollRegion, subRegion)
 		lastTime = currentTime
 	}
 
@@ -616,6 +619,19 @@ const handleScroll = (pxValue, region, progress) => {
 				$('p#26').css('opacity', `${(1 - progress) * 100}%`)
 			}
 			break
+		case 8:
+			modify('.flock#xs', 'display: none')
+			modify('.flock#xs2', 'display: none')
+			modify('h1#25', 'display: none')
+			modify('h1#25.stroke', 'display: none')
+			modify('p#26', 'display: none')
+			modify('.flock#m2', 'display: initial')
+			modify($frame, `width: 1320px; height: 660px; opacity: 100%`)
+			modify('h1#27', 'display: initial')
+			modify('h1#28', 'display: initial')
+			modify('h1#27.stroke', 'display: initial')
+			modify('h1#28.stroke', 'display: initial')
+			break
 	}
 }
 
@@ -697,6 +713,9 @@ window.addEventListener('load', () => {
 	$(getCell('xs2', 3, 10)).css({'background-image': `url(${TAXI_24})`, 'filter': 'grayscale(100%)'})  // гонщик
 	$(getCell('xs2', 3, 6)).css({'background-image': `url(${TAXI_25})`, 'filter': 'grayscale(100%)'})  // голд
 	$(getCell('xs2', 5, 2)).css({'background-image': `url(${TAXI_26})`, 'filter': 'grayscale(0%)'})  // конь
+
+	createFlock('m2', 60, 11, 22, { array: C_MY_CY_CMY, makeCheckers: true }, true, false)
+	slices['m2'] = sliceFlock('m2')
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
