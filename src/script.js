@@ -28,6 +28,15 @@ import TAXI_14 from "../static/img/taxi-14.png"
 import TAXI_15 from "../static/img/taxi-15.png"
 import TAXI_16 from "../static/img/taxi-16.png"
 import TAXI_17 from "../static/img/taxi-17.png"
+import TAXI_18 from "../static/img/taxi-18.png"
+import TAXI_19 from "../static/img/taxi-19.png"
+import TAXI_20 from "../static/img/taxi-20.jpg"
+import TAXI_21 from "../static/img/taxi-21.png"
+import TAXI_22 from "../static/img/taxi-22.jpg"
+import TAXI_23 from "../static/img/taxi-23.png"
+import TAXI_24 from "../static/img/taxi-24.png"
+import TAXI_25 from "../static/img/taxi-25.jpg"
+import TAXI_26 from "../static/img/taxi-26.jpg"
 
 const C_M_Y_K = [
 	'#00AAE9',
@@ -481,6 +490,8 @@ const handleScroll = (pxValue, region, progress) => {
 				switch (subRegion) {
 					case 1:
 						modify('.flock#xs2', 'display: initial')
+						modify('h1#1', 'display: initial')
+						modify('h1#1.stroke', 'display: initial')
 						break
 				}
 				subRegionApplied = true
@@ -557,6 +568,15 @@ window.addEventListener('load', () => {
 
 	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
 	createFlock('xs2', 110, 6, 13, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [-540, -640])
+	$(getCell('xs2', 4, 5)).css({'background-image': `url(${TAXI_18})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 5, 4)).css({'background-image': `url(${TAXI_19})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 4, 7)).css({'background-image': `url(${TAXI_20})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 3, 8)).css({'background-image': `url(${TAXI_21})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 3, 10)).css({'background-image': `url(${TAXI_22})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 4, 9)).css({'background-image': `url(${TAXI_23})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 5, 10)).css({'background-image': `url(${TAXI_24})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 3, 4)).css({'background-image': `url(${TAXI_25})`, 'filter': 'grayscale(100%)'})
+	$(getCell('xs2', 5, 2)).css({'background-image': `url(${TAXI_26})`, 'filter': 'grayscale(100%)'})
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
