@@ -569,12 +569,13 @@ $(document).on("scroll", function() {
 	if (newScrollRegion !== currentScrollRegion) {
 		if (newScrollRegion < currentScrollRegion) {
 			rollbackByRegion(currentScrollRegion)
+			currentScrollRegion--
 		} else {
 			regionApplied = false
 			regionBumped = true
 			priorRegion = currentScrollRegion
+			currentScrollRegion++
 		}
-		currentScrollRegion = newScrollRegion;
 	}
 
 	const newSubRegion = Math.round(mapValue(currentScrollRegionProgress(), 0, 1, 0, SCROLL_SUBREGIONS[currentScrollRegion]))
