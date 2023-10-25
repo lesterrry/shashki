@@ -64,7 +64,9 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[6000, 8000],  // микс цмика
 	[8000, 12000],  // цмик растворяется
 	[12000, 15000],  // фотки машин внизу
-	[15000, 20000]  // много фоток машин
+	[15000, 23000],  // много фоток машин
+	[23000, 24000],  // машины исчезают
+	[24000, 30000],
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -74,7 +76,8 @@ const SCROLL_SUBREGIONS = [
 	0,
 	3,
 	14,
-	12
+	12,
+	1
 ]
 
 let lastTime = 0
@@ -261,8 +264,10 @@ const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
 const handleScroll = (pxValue, region, progress) => {
 	const slice_s = slices['s']
 	const slice_m = slices['m']
+	const slice_xs = slices['xs']
 	const mapped_s = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
 	const mapped_m = Math.round(mapValue(progress, 0, 1, 0, slice_m.length + 10))
+	const mapped_xs = Math.round(mapValue(progress, 0, 1, 0, slice_xs.length))
 
 	switch (region) {
 		case -1:
@@ -538,10 +543,78 @@ const handleScroll = (pxValue, region, progress) => {
 						modify('p#16', 'display: initial')
 						modify($(getCell('xs2', 4, 5)), 'z-index: 33; scale: 2.5; border-radius: 10px; filter: initial')
 						break
+					case 7:
+						modify('h1#15', 'display: none')
+						modify('h1#15.stroke', 'display: none')
+						modify('p#16', 'display: none')
+						modify($(getCell('xs2', 4, 5)), 'scale: initial; border-radius: initial')
+
+						modify('h1#17', 'display: initial')
+						modify('h1#17.stroke', 'display: initial')
+						modify('p#18', 'display: initial')
+						modify($(getCell('xs', 1, 2)), 'z-index: 34; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 8:
+						modify('h1#17', 'display: none')
+						modify('h1#17.stroke', 'display: none')
+						modify('p#18', 'display: none')
+						modify($(getCell('xs', 1, 2)), 'scale: initial; border-radius: initial')
+
+						modify('h1#19', 'display: initial')
+						modify('h1#19.stroke', 'display: initial')
+						modify('p#20', 'display: initial')
+						modify($(getCell('xs2', 4, 9)), 'z-index: 35; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 9:
+						modify('h1#19', 'display: none')
+						modify('h1#19.stroke', 'display: none')
+						modify('p#20', 'display: none')
+						modify($(getCell('xs2', 4, 9)), 'scale: initial; border-radius: initial')
+
+						modify('h1#21', 'display: initial')
+						modify('h1#21.stroke', 'display: initial')
+						modify('p#22', 'display: initial')
+						modify($(getCell('xs', 0, 9)), 'z-index: 36; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 10:
+						modify('h1#21', 'display: none')
+						modify('h1#21.stroke', 'display: none')
+						modify('p#22', 'display: none')
+						modify($(getCell('xs', 0, 9)), 'scale: initial; border-radius: initial')
+
+						modify('h1#23', 'display: initial')
+						modify('h1#23.stroke', 'display: initial')
+						modify('p#24', 'display: initial')
+						modify($(getCell('xs2', 3, 6)), 'z-index: 36; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 11:
+						modify('h1#23', 'display: none')
+						modify('h1#23.stroke', 'display: none')
+						modify('p#24', 'display: none')
+						modify($(getCell('xs2', 3, 6)), 'scale: initial; border-radius: initial')
+
+						modify('h1#25', 'display: initial')
+						modify('h1#25.stroke', 'display: initial')
+						modify('p#26', 'display: initial')
+						modify($(getCell('xs', 0, 1)), 'z-index: 36; scale: 2.5; border-radius: 10px; filter: initial')
+						break
 				}
 				subRegionApplied = true
 			}
 
+			break
+		case 7:
+			modify('p#5', 'display: none')
+			modify('p#6', 'display: none')
+			modify('p#7', 'display: none')
+			modify('p#8', 'display: none')
+
+			for (let i = 0; i < slice_xs.length; i++) {
+				$(slice_xs[i]).css('opacity', `${(1 - progress) * 100}%`)
+				$('h1#25').css('opacity', `${(1 - progress) * 100}%`)
+				$('h1#25.stroke').css('opacity', `${(1 - progress) * 100}%`)
+				$('p#26').css('opacity', `${(1 - progress) * 100}%`)
+			}
 			break
 	}
 }
@@ -614,6 +687,7 @@ window.addEventListener('load', () => {
 
 	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
 	createFlock('xs2', 110, 6, 13, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [-540, -640])
+	slices['xs'] = sliceFlock('xs').concat(sliceFlock('xs2'))
 	$(getCell('xs2', 4, 5)).css({'background-image': `url(${TAXI_18})`, 'filter': 'grayscale(100%)'})  // бэтмен
 	$(getCell('xs2', 4, 7)).css({'background-image': `url(${TAXI_19})`, 'filter': 'grayscale(100%)'})  // перепрыгни
 	$(getCell('xs2', 5, 4)).css({'background-image': `url(${TAXI_20})`, 'filter': 'grayscale(100%)'})  // дагестан
@@ -621,7 +695,7 @@ window.addEventListener('load', () => {
 	$(getCell('xs2', 5, 10)).css({'background-image': `url(${TAXI_22})`, 'filter': 'grayscale(100%)'})  // озеро
 	$(getCell('xs2', 4, 9)).css({'background-image': `url(${TAXI_23})`, 'filter': 'grayscale(100%)'})  // здарова
 	$(getCell('xs2', 3, 10)).css({'background-image': `url(${TAXI_24})`, 'filter': 'grayscale(100%)'})  // гонщик
-	$(getCell('xs2', 3, 4)).css({'background-image': `url(${TAXI_25})`, 'filter': 'grayscale(100%)'})  // голд
+	$(getCell('xs2', 3, 6)).css({'background-image': `url(${TAXI_25})`, 'filter': 'grayscale(100%)'})  // голд
 	$(getCell('xs2', 5, 2)).css({'background-image': `url(${TAXI_26})`, 'filter': 'grayscale(0%)'})  // конь
 
 	setTimeout(() => {

@@ -20,7 +20,7 @@ html, body {
 
 body {
 	background-color: white;
-	height: 20000px;
+	height: 30000px;
 }
 
 img, svg {
@@ -28,7 +28,7 @@ img, svg {
 }
 
 h1, img.text, .top {
-	z-index: 30;
+	z-index: 50;
 }
 
 h1 {
