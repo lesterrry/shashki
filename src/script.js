@@ -62,11 +62,13 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[1000, 3000],  // рассказ четыре абзаца
 	[3000, 6000],  // скейлдаун
 	[6000, 8000],  // микс цмика
-	[8000, 12000],  // цмик растворяется
+	[8000, 12000],  // микс растворяется
 	[12000, 15000],  // фотки машин внизу
 	[15000, 23000],  // много фоток машин
 	[23000, 24000],  // машины исчезают
-	[24000, 30000],
+	[24000, 26000],  // микс цмика 2
+	[26000, 30000],  // микс цмика 2 растворяется
+	[30000, 40000],
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -78,7 +80,9 @@ const SCROLL_SUBREGIONS = [
 	14,
 	12,
 	0,
-	0
+	0,
+	0,
+	5
 ]
 
 let lastTime = 0
@@ -103,7 +107,7 @@ const createCell = (size, color) => {
 }
 
 const createRandomColor = (colorDict, index) => {
-	return (colorDict['makeCheckers'] && index % 2 === 0) ? '#FFFFFF' : colorDict['array'].random()
+	return (colorDict['makeCheckers'] && index % 2 === 0) ? 'rgba(255,255,255,0)' : colorDict['array'].random()
 }
 
 const resolveColor = (color, arrayIndex = 0, randomIndex = 0) => {
@@ -224,7 +228,6 @@ const animate = (currentTime) => {
 		if (currentScrollRegion === -1) repaintFlock('s', { array: C_M_Y_K, makeCheckers: true })
 		if (currentScrollRegion === 3 && subRegion === 0) repaintFlock('m', { array: CM_M_CY_CMY, makeCheckers: true })
 		if (currentScrollRegion === 8 && subRegion === 0) repaintFlock('m2', { array: C_MY_CY_CMY, makeCheckers: true })
-		console.log(currentScrollRegion, subRegion)
 		lastTime = currentTime
 	}
 
@@ -246,7 +249,6 @@ const rollback = (affected) => {
 	for (const i of affected) {
 		let node = i.selector
 		if (typeof i.selector === 'string') node = $(i.selector);
-		// console.warn(typeof node)
 		node.attr('style', i.priorCss)
 		// console.log('a', selector, i.priorCss)
 		modifications = modifications.filter(j => j.region !== i.region || (j.region === i.region && j.subRegion !== i.subRegion) )
@@ -260,7 +262,6 @@ const rollbackByRegion = (priorRegion) => {
 
 const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
 	const affected = modifications.filter(i => i.subRegion === priorSubRegion && i.region === priorRegion)
-	console.error(affected)
 	rollback(affected)
 }
 
@@ -284,8 +285,6 @@ const handleScroll = (pxValue, region, progress) => {
 			// 	normalizeFlock('s', 80)
 			// 	regionApplied = true
 			// }
-
-			console.log(mapped_s)
 
 			for (let i = 0; i < slice_s.length; i++) {
 				const multiplier = mapped_s - i
@@ -498,6 +497,10 @@ const handleScroll = (pxValue, region, progress) => {
 				switch (subRegion) {
 					case 1:
 						modify('.flock#xs2', 'display: initial')
+						modify('p#5', 'display: none')
+						modify('p#6', 'display: none')
+						modify('p#7', 'display: none')
+						modify('p#8', 'display: none')
 						break
 					case 3:
 						modify('h1#9', 'display: initial')
@@ -607,17 +610,11 @@ const handleScroll = (pxValue, region, progress) => {
 
 			break
 		case 7:
-			modify('p#5', 'display: none')
-			modify('p#6', 'display: none')
-			modify('p#7', 'display: none')
-			modify('p#8', 'display: none')
-
-			for (let i = 0; i < slice_xs.length; i++) {
-				$(slice_xs[i]).css('opacity', `${(1 - progress) * 100}%`)
-				$('h1#25').css('opacity', `${(1 - progress) * 100}%`)
-				$('h1#25.stroke').css('opacity', `${(1 - progress) * 100}%`)
-				$('p#26').css('opacity', `${(1 - progress) * 100}%`)
-			}
+			$('.flock#xs').css('opacity', `${(1 - progress) * 100}%`)
+			$('.flock#xs2').css('opacity', `${(1 - progress) * 100}%`)
+			$('h1#25').css('opacity', `${(1 - progress) * 100}%`)
+			$('h1#25.stroke').css('opacity', `${(1 - progress) * 100}%`)
+			$('p#26').css('opacity', `${(1 - progress) * 100}%`)
 			break
 		case 8:
 			modify('.flock#xs', 'display: none')
@@ -626,11 +623,47 @@ const handleScroll = (pxValue, region, progress) => {
 			modify('h1#25.stroke', 'display: none')
 			modify('p#26', 'display: none')
 			modify('.flock#m2', 'display: initial')
-			modify($frame, `width: 1320px; height: 660px; opacity: 100%`)
+			modify($frame, `width: 1320px; height: 660px; opacity: 100%; z-index: 10`)
 			modify('h1#27', 'display: initial')
 			modify('h1#28', 'display: initial')
 			modify('h1#27.stroke', 'display: initial')
 			modify('h1#28.stroke', 'display: initial')
+			break
+		case 9:
+			modify('h1#27', 'opacity: 0')
+			modify('h1#28', 'opacity: 0')
+			modify('h1#27.stroke', 'opacity: 0')
+			modify('h1#28.stroke', 'opacity: 0')
+			modify($frame, 'opacity: 0')
+			$('.flock#m2').css({'scale': `${(progress * 4) + 1}`, 'filter': `grayscale(${progress * 100}%)`})
+			break
+		case 10:
+			modify('.flock#m2', 'scale: 5')
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 1:
+						modify('p#29', 'opacity: 100%')
+						modify($(getCell('m2', 5, 10)), 'margin-top: 60px')
+						modify($(getCell('m2', 6, 11)), 'margin-left: 60px')
+						modify($(getCell('m2', 4, 11)), 'margin-top: -60px')
+						break
+					case 2:
+						modify('p#30', 'opacity: 100%')
+						modify($(getCell('m2', 5, 12)), 'margin-left: 60px')
+						modify($(getCell('m2', 6, 13)), 'margin-top: 60px')
+						modify($(getCell('m2', 4, 13)), 'margin-top: -60px')
+						break
+					case 3:
+						modify('p#31', 'opacity: 100%')
+						modify($(getCell('m2', 4, 9)), 'margin-top: -60px')
+						modify($(getCell('m2', 6, 9)), 'margin-top: 60px')
+						modify($(getCell('m2', 5, 12)), 'margin-left: 120px')
+						break
+				}
+				subRegionApplied = true
+			}
+
+			// modify($(getCell('m2', 5, 12)), 'margin-left: 60px')
 			break
 	}
 }
@@ -701,8 +734,8 @@ window.addEventListener('load', () => {
 	createFlock('m', 60, 11, 22, { array: CM_M_CY_CMY, makeCheckers: true }, true, false)
 	slices['m'] = sliceFlock('m')
 
-	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
 	createFlock('xs2', 110, 6, 13, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [-540, -640])
+	createFlock('xs', 110, 3, 18, { array: ['#EEEEEE'], makeCheckers: true }, true, false, [120, -640])
 	slices['xs'] = sliceFlock('xs').concat(sliceFlock('xs2'))
 	$(getCell('xs2', 4, 5)).css({'background-image': `url(${TAXI_18})`, 'filter': 'grayscale(100%)'})  // бэтмен
 	$(getCell('xs2', 4, 7)).css({'background-image': `url(${TAXI_19})`, 'filter': 'grayscale(100%)'})  // перепрыгни
@@ -716,6 +749,7 @@ window.addEventListener('load', () => {
 
 	createFlock('m2', 60, 11, 22, { array: C_MY_CY_CMY, makeCheckers: true }, true, false)
 	slices['m2'] = sliceFlock('m2')
+	$('.flock#m2').css({'z-index': '19', 'scale': '1', 'filter': 'initial'})
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
