@@ -448,7 +448,7 @@ const handleScroll = (pxValue, region, progress) => {
 						modify($(getCell('xs', 1, 6)), `background-image: url(${TAXI_12}); filter: initial`)
 						break
 					case 6:
-						modify($(getCell('xs', 0, 7)), `background-image: url(${TAXI_13}); filter: initial`)
+						modify($(getCell('xs', 0, 7)), `background-image: url(${TAXI_13}); filter: initial`)  // 13
 						break
 					case 7:
 						modify($(getCell('xs', 1, 8)), `background-image: url(${TAXI_14}); filter: initial`)
@@ -460,7 +460,7 @@ const handleScroll = (pxValue, region, progress) => {
 						modify($(getCell('xs', 1, 10)), `background-image: url(${TAXI_16}); filter: initial`)
 						break
 					case 10:
-						modify($(getCell('xs', 0, 11)), `background-image: url(${TAXI_17}); filter: initial`)
+						modify($(getCell('xs', 0, 11)), `background-image: url(${TAXI_17}); filter: initial`)  // memento
 						break
 					case 11:
 						modify('p#5', 'opacity: 15%')
@@ -495,9 +495,48 @@ const handleScroll = (pxValue, region, progress) => {
 						modify('h1#9', 'display: initial')
 						modify('h1#9.stroke', 'display: initial')
 						modify('p#10', 'display: initial')
-						modify($(getCell('xs2', 3, 8)), 'scale: 2; border-radius: 10px; filter: initial; z-index: 30')
-						modify($(getCell('xs2', 5, 4)), 'scale: 2; border-radius: 10px; filter: initial; z-index: 30')
-						modify($(getCell('xs2', 5, 10)), 'scale: 2; border-radius: 10px; filter: initial; z-index: 30')
+						$(getCell('xs2', 3, 8)).css('z-index', '30')
+						modify($(getCell('xs2', 3, 8)), 'z-index: 30; scale: 2.5; border-radius: 10px; filter: initial')
+						modify($(getCell('xs2', 5, 4)), 'z-index: 30; scale: 2.5; border-radius: 10px; filter: initial')
+						modify($(getCell('xs2', 5, 10)), 'z-index: 30; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 4:
+						modify('h1#9', 'display: none')
+						modify('h1#9.stroke', 'display: none')
+						modify('p#10', 'display: none')
+						modify($(getCell('xs2', 3, 8)), 'scale: initial; border-radius: initial')
+						modify($(getCell('xs2', 5, 4)), 'scale: initial; border-radius: initial')
+						modify($(getCell('xs2', 5, 10)), 'scale: initial; border-radius: initial')
+
+						modify('h1#11', 'display: initial')
+						modify('h1#11.stroke', 'display: initial')
+						modify('p#12', 'display: initial')
+						modify($(getCell('xs2', 3, 10)), 'z-index: 31; scale: 2.5; border-radius: 10px; filter: initial')
+						modify($(getCell('xs', 0, 7)), 'z-index: 31; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 5:
+						modify('h1#11', 'display: none')
+						modify('h1#11.stroke', 'display: none')
+						modify('p#12', 'display: none')
+						modify($(getCell('xs2', 3, 10)), 'scale: initial; border-radius: initial')
+						modify($(getCell('xs', 0, 7)), 'scale: initial; border-radius: initial')
+
+						modify('h1#13', 'display: initial')
+						modify('h1#13.stroke', 'display: initial')
+						modify('p#14', 'display: initial')
+						modify($(getCell('xs', 0, 11)), 'z-index: 32; scale: 2.5; border-radius: 10px; filter: initial')
+						break
+					case 6:
+						modify('h1#13', 'display: none')
+						modify('h1#13.stroke', 'display: none')
+						modify('p#14', 'display: none')
+						modify($(getCell('xs', 0, 11)), 'scale: initial; border-radius: initial')
+						modify($(getCell('xs', 0, 11)), 'scale: initial; border-radius: initial')
+
+						modify('h1#15', 'display: initial')
+						modify('h1#15.stroke', 'display: initial')
+						modify('p#16', 'display: initial')
+						modify($(getCell('xs2', 4, 5)), 'z-index: 33; scale: 2.5; border-radius: 10px; filter: initial')
 						break
 				}
 				subRegionApplied = true
