@@ -84,7 +84,8 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[35000, 38000],
 	[38000, 42000],
 	[42000, 52000],
-	[52000, 60000]
+	[52000, 54000],
+	[54000, 60000]
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -102,6 +103,7 @@ const SCROLL_SUBREGIONS = [
 	0,
 	0,
 	11,
+	0,
 	0
 ]
 
@@ -773,6 +775,12 @@ const handleScroll = (pxValue, region, progress) => {
 				}
 				subRegionApplied = true
 			}
+			break
+		case 14:
+			for (let i = 0; i < slice_o.length; i++) {
+				$(slice_o[i]).css('border-width', `${i > mapped_o ? 0.05 : 1.25}em`)
+			}
+			break
 	}
 }
 
