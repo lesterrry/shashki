@@ -68,7 +68,9 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[23000, 24000],  // машины исчезают
 	[24000, 26000],  // микс цмика 2
 	[26000, 30000],  // микс цмика 2 растворяется
-	[30000, 40000],
+	[30000, 35000],
+	[35000, 38000],
+	[38000, 42000]
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -82,7 +84,9 @@ const SCROLL_SUBREGIONS = [
 	0,
 	0,
 	0,
-	5
+	4,
+	0,
+	0
 ]
 
 let lastTime = 0
@@ -93,7 +97,7 @@ let subRegion = 0
 let subRegionApplied = false
 let modifications = []
 
-let $container, $frame
+let $body, $container, $frame, $overlay
 
 const slices = {}
 
@@ -111,6 +115,7 @@ const createRandomColor = (colorDict, index) => {
 }
 
 const resolveColor = (color, arrayIndex = 0, randomIndex = 0) => {
+	if (typeof color === 'string') return color
 	return Array.isArray(color) ? color[arrayIndex] : createRandomColor(color, randomIndex)
 }
 
@@ -268,10 +273,10 @@ const rollbackBySubRegion = (priorSubRegion, priorRegion) => {
 const handleScroll = (pxValue, region, progress) => {
 	const slice_s = slices['s']
 	const slice_m = slices['m']
-	const slice_xs = slices['xs']
+	const slice_o = slices['o']
 	const mapped_s = Math.round(mapValue(progress, 0, 1, 0, slice_s.length))
 	const mapped_m = Math.round(mapValue(progress, 0, 1, 0, slice_m.length + 10))
-	const mapped_xs = Math.round(mapValue(progress, 0, 1, 0, slice_xs.length))
+	const mapped_o = Math.round(mapValue(progress, 0, 1, 0, slice_o.length + 10))
 
 	switch (region) {
 		case -1:
@@ -643,7 +648,7 @@ const handleScroll = (pxValue, region, progress) => {
 				switch (subRegion) {
 					case 1:
 						modify('p#29', 'opacity: 100%')
-						modify($(getCell('m2', 5, 10)), 'margin-top: 60px')
+						modify($(getCell('m2', 5, 10)), 'margin-top: 60px; z-index: 40')
 						modify($(getCell('m2', 6, 11)), 'margin-left: 60px')
 						modify($(getCell('m2', 4, 11)), 'margin-top: -60px')
 						break
@@ -663,8 +668,23 @@ const handleScroll = (pxValue, region, progress) => {
 				subRegionApplied = true
 			}
 
-			// modify($(getCell('m2', 5, 12)), 'margin-left: 60px')
 			break
+		case 11:
+			$(getCell('m2', 5, 10)).css({'scale': `${(progress * 8) + 1}`})
+			$overlay.css('opacity', `${(progress) * 100}%`)
+			break
+		case 12:
+			for (let i = 0; i < slice_o.length; i++) {
+				$(slice_o[i]).css('opacity', `${i > mapped_o ? 0 : 100}%`)
+			}
+
+			modify('.flock#m2', 'display: none')
+			modify('p#29', 'display: none')
+			modify('p#30', 'display: none')
+			modify('p#31', 'display: none')
+			modify($overlay, 'opacity: 0%')
+			modify($body, 'background-color: #363636')
+			modify($(getCell('m2', 5, 10)), 'opacity: 0')
 	}
 }
 
@@ -717,8 +737,10 @@ $(document).on("scroll", function() {
 
 
 window.addEventListener('load', () => {
+	$body = $('body')
 	$container = $('#canvas');
 	$frame = $('#frame');
+	$overlay = $('#overlay');
 
 	makeHeadingStrokes()
 
@@ -750,6 +772,9 @@ window.addEventListener('load', () => {
 	createFlock('m2', 60, 11, 22, { array: C_MY_CY_CMY, makeCheckers: true }, true, false)
 	slices['m2'] = sliceFlock('m2')
 	$('.flock#m2').css({'z-index': '19', 'scale': '1', 'filter': 'initial'})
+
+	createFlock('o', 40, 25, 45, 'rgba(255,255,255,0)', false, false)
+	slices['o'] = sliceFlock('o')
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
