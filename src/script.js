@@ -68,6 +68,12 @@ const C_MY_CY_CMY = [
 	'#00A359',
 	'#363639'
 ]
+const CM_MY_Y_CMY = [
+	'#2F308C',
+	'#DA3832',
+	'#FFF34A',
+	'#363639'
+]
 
 const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[1, 1000],  // цмик в начале пока исчезают слова
@@ -103,7 +109,7 @@ const SCROLL_SUBREGIONS = [
 	0,
 	0,
 	11,
-	0,
+	5,
 	0
 ]
 
@@ -251,6 +257,7 @@ const animate = (currentTime) => {
 		if (currentScrollRegion === -1) repaintFlock('s', { array: C_M_Y_K, makeCheckers: true })
 		if (currentScrollRegion === 3 && subRegion === 0) repaintFlock('m', { array: CM_M_CY_CMY, makeCheckers: true })
 		if (currentScrollRegion === 8 && subRegion === 0) repaintFlock('m2', { array: C_MY_CY_CMY, makeCheckers: true })
+		if (currentScrollRegion === 15 && subRegion === 0) repaintFlock('s2', { array: CM_MY_Y_CMY, makeCheckers: true })
 		lastTime = currentTime
 	}
 
@@ -780,6 +787,39 @@ const handleScroll = (pxValue, region, progress) => {
 			for (let i = 0; i < slice_o.length; i++) {
 				$(slice_o[i]).css('border-width', `${i > mapped_o ? 0.05 : 1.25}em`)
 			}
+
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 2:
+						modify('p#42', 'opacity: 100%')
+						break
+					case 3:
+						modify('p#43', 'opacity: 100%')
+						break
+					case 4:
+						modify('p#44', 'opacity: 100%')
+						break
+					case 5:
+						modify('p#45', 'opacity: 100%')
+						modify($overlay, 'display: none')
+						break
+				}
+				subRegionApplied = true
+			}
+			break
+		case 15:
+			modify('p#42', 'display: none')
+			modify('p#43', 'display: none')
+			modify('p#44', 'display: none')
+			modify('p#45', 'display: none')
+			modify('.flock#o', 'display: none')
+
+			modify($body, 'background-color: white')
+			modify('.flock#s2', 'display: initial')
+			modify('h1#46', 'display: initial')
+			modify('h1#46.stroke', 'display: initial')
+
+			modify($frame, 'opacity: 100%; width: 840px; height: 420px')
 			break
 	}
 }
@@ -877,6 +917,8 @@ window.addEventListener('load', () => {
 	$('#int-3').css('background-image', `url(${INT_3})`)
 	$('#int-4').css('background-image', `url(${INT_4})`)
 	$('#int-5').css('background-image', `url(${INT_5})`)
+
+	createFlock('s2', 70, 6, 12, { array: CM_MY_Y_CMY, makeCheckers: true }, true, false)
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
