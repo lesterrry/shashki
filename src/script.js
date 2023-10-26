@@ -271,7 +271,9 @@ const modify = (selector, css) => {
 	const prior = node.attr('style')?.toString() || ''
 	if (prior.endsWith(`${css};`)) return
 
-	$(node).attr('style', `${prior} ${css};`)
+	const semicolon = prior.endsWith(';') ? '' : '; '
+
+	$(node).attr('style', `${prior}${semicolon} ${css};`)
 	modifications.push({ region: currentScrollRegion, subRegion: subRegion, selector: selector, priorCss: prior })
 }
 
