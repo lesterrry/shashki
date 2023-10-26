@@ -84,6 +84,13 @@ p.invert {
 	align-items: center;
 }
 
+#buttplug {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	background-size: cover;
+}
+
 #frame {
 	position: absolute;
 	margin: auto;

@@ -10,6 +10,8 @@ me@aydar.media
 import './style.css'
 import $ from 'jquery';
 
+import HAHA from "../static/img/hahaha.svg"
+
 import TAXI_1 from "../static/img/taxi-1.jpg"
 import TAXI_2 from "../static/img/taxi-2.jpg"
 import TAXI_3 from "../static/img/taxi-3.png"
@@ -155,6 +157,7 @@ const SCROLL_SUBREGIONS = [
 
 let lastTime = 0
 
+let scrollEnabled = false;
 let currentScrollRegion = -1
 let regionApplied = false
 let subRegion = 0
@@ -879,6 +882,8 @@ Array.prototype.random = function () {
 }
 
 $(document).on("scroll", function() {
+	if (!scrollEnabled) return
+
 	const getRegion = (value) => {
 		if (value < SCROLL_REGIONS[0][0]) return -1
 		for (let i = 0; i < SCROLL_REGIONS.length; i++) {
@@ -972,11 +977,24 @@ window.addEventListener('load', () => {
 
 	createFlock('s2', 70, 6, 12, { array: CM_MY_Y_CMY, makeCheckers: true }, true, false)
 
-	setTimeout(() => {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+		$('#overlay').css({'background-color': '#363636', 'opacity': '0', 'z-index': '100'})
+		$('#overlay > p').html('')
+		$container.css('display', 'none')
 
-		$('#overlay').css({'background-color': '363636', 'opacity': '0', 'z-index': '100', })
+		let image = $('<img>')
+			.attr('id', 'buttplug')
+			.attr('src', HAHA)
+		$body.append(image);
+	} else {
+		setTimeout(() => {
+			$('#overlay').css({'background-color': '#363636', 'opacity': '0', 'z-index': '100'})
+			$('#overlay > p').html('')
 
-		window.scrollTo(0, 0);
-		window.requestAnimationFrame(animate)
-	}, 2000)
+			scrollEnabled = true
+
+			window.scrollTo(0, 0);
+			window.requestAnimationFrame(animate)
+		}, 2000)
+	}
 });
