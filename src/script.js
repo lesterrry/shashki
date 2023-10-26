@@ -50,6 +50,46 @@ import ROOM_3 from "../static/img/room-3.jpg"
 import ROOM_4 from "../static/img/room-4.jpg"
 import ROOM_5 from "../static/img/room-5.jpg"
 
+const IMAGES = [
+	TAXI_1,
+	TAXI_2,
+	TAXI_3,
+	TAXI_4,
+	TAXI_5,
+	TAXI_6,
+	TAXI_7,
+	TAXI_8,
+	TAXI_9,
+	TAXI_10,
+	TAXI_11,
+	TAXI_12,
+	TAXI_13,
+	TAXI_14,
+	TAXI_15,
+	TAXI_16,
+	TAXI_17,
+	TAXI_18,
+	TAXI_19,
+	TAXI_20,
+	TAXI_21,
+	TAXI_22,
+	TAXI_23,
+	TAXI_24,
+	TAXI_25,
+	TAXI_26,
+	INT_1,
+	INT_2,
+	INT_3,
+	INT_4,
+	INT_5,
+	ROOM_1,
+	ROOM_2,
+	ROOM_3,
+	ROOM_4,
+	ROOM_5
+];
+
+
 const C_M_Y_K = [
 	'#00AAE9',
 	'#D92D8A',
@@ -124,6 +164,14 @@ let modifications = []
 let $body, $container, $frame, $overlay
 
 const slices = {}
+
+const preload = () => {
+	IMAGES.forEach((imagePath) => {
+		const img = new Image();
+		img.src = imagePath;
+	});
+}
+
 
 const createCell = (size, color) => {
 	const $cell = $('<picture></picture>')
@@ -875,6 +923,8 @@ $(document).on("scroll", function() {
 
 
 window.addEventListener('load', () => {
+	preload()
+
 	$body = $('body')
 	$container = $('#canvas');
 	$frame = $('#frame');
