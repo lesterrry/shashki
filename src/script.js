@@ -973,7 +973,10 @@ window.addEventListener('load', () => {
 	createFlock('s2', 70, 6, 12, { array: CM_MY_Y_CMY, makeCheckers: true }, true, false)
 
 	setTimeout(() => {
+
+		$('#overlay').css({'background-color': '363636', 'opacity': '0', 'z-index': '100', })
+
 		window.scrollTo(0, 0);
 		window.requestAnimationFrame(animate)
-	}, 500)
+	}, 2000)
 });

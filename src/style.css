@@ -76,9 +76,12 @@ p.invert {
 	height: 100%;
 	top: 0;
 	left: 0;
-	background-color: #363636;
-	opacity: 0;
-	z-index: 100;
+	background-color: #FFF34A;
+	opacity: 100;
+	z-index: 45;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #frame {
