@@ -20,14 +20,14 @@ html, body {
 
 body {
 	background-color: white;
-	height: 45000px;
+	height: 60000px;
 }
 
 img, svg {
 	-webkit-user-select: none;
 }
 
-h1, img.text, .top {
+h1, .top {
 	z-index: 50;
 }
 
@@ -49,10 +49,25 @@ p {
 	letter-spacing: 0.02em;
 }
 
+.card {
+	z-index: 45;
+	border: 16px solid white;
+	border-radius: 32px;
+	background-size: cover;
+}
+
 h1.stroke {
 	-webkit-text-stroke: 10px white;
 	z-index: 20;
 	filter:url(#goo);
+}
+
+h1.invert, p.invert {
+	color: white;
+}
+
+p.invert {
+	-webkit-text-stroke: 0.075em white;
 }
 
 #overlay {

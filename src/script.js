@@ -38,6 +38,18 @@ import TAXI_24 from "../static/img/taxi-24.png"
 import TAXI_25 from "../static/img/taxi-25.jpg"
 import TAXI_26 from "../static/img/taxi-26.jpg"
 
+import INT_1 from "../static/img/int-1.jpg"
+import INT_2 from "../static/img/int-2.jpg"
+import INT_3 from "../static/img/int-3.jpg"
+import INT_4 from "../static/img/int-4.jpg"
+import INT_5 from "../static/img/int-5.jpg"
+
+import ROOM_1 from "../static/img/room-1.jpg"
+import ROOM_2 from "../static/img/room-2.jpg"
+import ROOM_3 from "../static/img/room-3.jpg"
+import ROOM_4 from "../static/img/room-4.jpg"
+import ROOM_5 from "../static/img/room-5.jpg"
+
 const C_M_Y_K = [
 	'#00AAE9',
 	'#D92D8A',
@@ -70,7 +82,9 @@ const SCROLL_REGIONS = [  // todo длины вместо диапазонов
 	[26000, 30000],  // микс цмика 2 растворяется
 	[30000, 35000],
 	[35000, 38000],
-	[38000, 42000]
+	[38000, 42000],
+	[42000, 52000],
+	[52000, 60000]
 ]
 
 const SCROLL_SUBREGIONS = [
@@ -86,6 +100,8 @@ const SCROLL_SUBREGIONS = [
 	0,
 	4,
 	0,
+	0,
+	11,
 	0
 ]
 
@@ -685,6 +701,78 @@ const handleScroll = (pxValue, region, progress) => {
 			modify($overlay, 'opacity: 0%')
 			modify($body, 'background-color: #363636')
 			modify($(getCell('m2', 5, 10)), 'opacity: 0')
+
+			break
+		case 13:
+			if (!subRegionApplied) {
+				switch (subRegion) {
+					case 1:
+						modify('h1#32', 'display: initial')
+						modify('p#33', 'display: initial')
+						modify('div#int-1', 'transform: scale(1); rotate: 4deg; opacity: 100%')
+						break
+					case 2:
+						modify('div#int-1', `background-image: url(${ROOM_1})`)
+						break
+					case 3:
+						modify('h1#32', 'display: none')
+						modify('p#33', 'display: none')
+						modify('div#int-1', 'filter: grayscale(100%)')
+
+						modify('h1#34', 'display: initial')
+						modify('p#35', 'display: initial')
+						modify('div#int-2', 'transform: scale(1); rotate: -2deg; opacity: 100%')
+						break
+					case 4:
+						modify('div#int-2', `background-image: url(${ROOM_2})`)
+						break
+					case 5:
+						modify('h1#34', 'display: none')
+						modify('p#35', 'display: none')
+						modify('div#int-2', 'filter: grayscale(100%)')
+
+						modify('h1#36', 'display: initial')
+						modify('p#37', 'display: initial')
+						modify('div#int-3', 'transform: scale(1); rotate: 4deg; opacity: 100%')
+						break
+					case 6:
+						modify('div#int-3', `background-image: url(${ROOM_3})`)
+						break
+					case 7:
+						modify('h1#36', 'display: none')
+						modify('p#37', 'display: none')
+						modify('div#int-3', 'filter: grayscale(100%)')
+
+						modify('h1#38', 'display: initial')
+						modify('p#39', 'display: initial')
+						modify('div#int-4', 'transform: scale(1); rotate: 6deg; opacity: 100%')
+						break
+					case 8:
+						modify('div#int-4', `background-image: url(${ROOM_4})`)
+						break
+					case 9:
+						modify('h1#38', 'display: none')
+						modify('p#39', 'display: none')
+						modify('div#int-4', 'filter: grayscale(100%)')
+
+						modify('h1#40', 'display: initial')
+						modify('p#41', 'display: initial')
+						modify('div#int-5', 'transform: scale(1); rotate: -2deg; opacity: 100%')
+						break
+					case 10:
+						modify('div#int-5', `background-image: url(${ROOM_5})`)
+						break
+					case 11:
+						modify('h1#40', 'opacity: 0')
+						modify('p#41', 'opacity: 0')
+						modify('div#int-1', 'opacity: 0')
+						modify('div#int-2', 'opacity: 0')
+						modify('div#int-3', 'opacity: 0')
+						modify('div#int-4', 'opacity: 0')
+						modify('div#int-5', 'opacity: 0')
+				}
+				subRegionApplied = true
+			}
 	}
 }
 
@@ -775,6 +863,12 @@ window.addEventListener('load', () => {
 
 	createFlock('o', 40, 25, 45, 'rgba(255,255,255,0)', false, false)
 	slices['o'] = sliceFlock('o')
+
+	$('#int-1').css('background-image', `url(${INT_1})`)
+	$('#int-2').css('background-image', `url(${INT_2})`)
+	$('#int-3').css('background-image', `url(${INT_3})`)
+	$('#int-4').css('background-image', `url(${INT_4})`)
+	$('#int-5').css('background-image', `url(${INT_5})`)
 
 	setTimeout(() => {
 		window.scrollTo(0, 0);
