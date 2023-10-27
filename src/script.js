@@ -10,7 +10,7 @@ me@aydar.media
 import './style.css'
 import $ from 'jquery';
 
-import HAHA from "../static/img/hahaha.svg"
+import HAHA from "../static/img/hahaha.png"
 
 import TAXI_1 from "../static/img/taxi-1.jpg"
 import TAXI_2 from "../static/img/taxi-2.jpg"
