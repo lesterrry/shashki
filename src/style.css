@@ -23,6 +23,15 @@ body {
 	height: 60000px;
 }
 
+footer {
+	position: fixed;
+	z-index: 110;
+	width: 100%;
+	bottom: -80px;
+	display: flex;
+	justify-content: space-between;
+}
+
 img, svg {
 	-webkit-user-select: none;
 }
@@ -41,12 +50,18 @@ h1 {
 	color: black;
 }
 
-p {
+p, a {
 	font-size: 16px;
 	font-family: Gramatika, sans-serif;
 	-webkit-text-stroke: 0.075em black;
 	transform: scaleY(1.25);
 	letter-spacing: 0.02em;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00AAE9;
+	-webkit-text-stroke: 0.075em #00AAE9;
 }
 
 .card {

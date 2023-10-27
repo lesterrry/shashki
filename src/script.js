@@ -164,7 +164,7 @@ let subRegion = 0
 let subRegionApplied = false
 let modifications = []
 
-let $body, $container, $frame, $overlay
+let $body, $container, $frame, $overlay, $footer
 
 const slices = {}
 
@@ -873,6 +873,10 @@ const handleScroll = (pxValue, region, progress) => {
 			modify('h1#46.stroke', 'display: initial')
 
 			modify($frame, 'opacity: 100%; width: 840px; height: 420px')
+
+			modify($overlay, 'display: none')
+
+			modify($footer, 'bottom: -10px')
 			break
 	}
 }
@@ -934,6 +938,7 @@ window.addEventListener('load', () => {
 	$container = $('#canvas');
 	$frame = $('#frame');
 	$overlay = $('#overlay');
+	$footer = $('footer');
 
 	makeHeadingStrokes()
 
