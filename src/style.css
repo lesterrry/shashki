@@ -55,7 +55,7 @@ p, a {
 	font-family: Gramatika, sans-serif;
 	-webkit-text-stroke: 0.075em black;
 	transform: scaleY(1.25);
-	letter-spacing: 0.02em;
+	letter-spacing: 0.075em;
 	text-decoration: none;
 }
 
