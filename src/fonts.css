@@ -1,11 +1,13 @@
 @font-face {
-    font-family: Panama;
-    src: url('../static/fonts/Panama-Italic.woff2') format('woff2'),
-        url('../static/fonts/Panama-Italic.woff') format('woff');
+  font-family: Panama;
+  src:
+    url("../static/fonts/Panama-Italic.woff2") format("woff2"),
+    url("../static/fonts/Panama-Italic.woff") format("woff");
 }
 
 @font-face {
-    font-family: Gramatika;
-    src: url('../static/fonts/GramatikaDemo-Regular.woff2') format('woff2'),
-    url('../static/fonts/GramatikaDemo-Regular.woff') format('woff');
+  font-family: Gramatika;
+  src:
+    url("../static/fonts/GramatikaDemo-Regular.woff2") format("woff2"),
+    url("../static/fonts/GramatikaDemo-Regular.woff") format("woff");
 }

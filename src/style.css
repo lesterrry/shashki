@@ -5,173 +5,180 @@ Handcrafted by Aydar N.
 me@aydar.media
 *************************/
 
-@import 'fonts.css';
+@import "fonts.css";
 
-*, ::after, ::before {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	transition: ease-out 0.2s;
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: ease-out 0.2s;
 }
 
-html, body {
-	overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
 }
 
 body {
-	background-color: white;
-	height: 60000px;
+  background-color: white;
+  height: 60000px;
 }
 
 footer {
-	position: fixed;
-	z-index: 110;
-	width: 100%;
-	bottom: -80px;
-	display: flex;
-	justify-content: space-between;
+  position: fixed;
+  z-index: 110;
+  width: 100%;
+  bottom: -80px;
+  display: flex;
+  justify-content: space-between;
 }
 
-img, svg {
-	-webkit-user-select: none;
+img,
+svg {
+  -webkit-user-select: none;
 }
 
-h1, .top {
-	z-index: 50;
+h1,
+.top {
+  z-index: 50;
 }
 
 h1 {
-	font-size: 68px;
-	font-family: Panama, serif;
-	text-transform: uppercase;
-	font-weight: 100;
-	line-height: normal;
-	letter-spacing: 0.08em;
-	color: black;
+  font-size: 68px;
+  font-family: Panama, serif;
+  text-transform: uppercase;
+  font-weight: 100;
+  line-height: normal;
+  letter-spacing: 0.08em;
+  color: black;
 }
 
-p, a {
-	font-size: 16px;
-	font-family: Gramatika, sans-serif;
-	-webkit-text-stroke: 0.075em black;
-	transform: scaleY(1.25);
-	letter-spacing: 0.075em;
-	text-decoration: none;
+p,
+a {
+  font-size: 16px;
+  font-family: Gramatika, sans-serif;
+  -webkit-text-stroke: 0.075em black;
+  transform: scaleY(1.25);
+  letter-spacing: 0.075em;
+  text-decoration: none;
 }
 
 a:hover {
-	color: #00AAE9;
-	-webkit-text-stroke: 0.075em #00AAE9;
+  color: #00aae9;
+  -webkit-text-stroke: 0.075em #00aae9;
 }
 
 .card {
-	z-index: 45;
-	border: 16px solid white;
-	border-radius: 32px;
-	background-size: cover;
+  z-index: 45;
+  border: 16px solid white;
+  border-radius: 32px;
+  background-size: cover;
 }
 
 h1.stroke {
-	-webkit-text-stroke: 10px white;
-	z-index: 20;
-	filter:url(#goo);
+  -webkit-text-stroke: 10px white;
+  z-index: 20;
+  filter: url(#goo);
 }
 
-h1.invert, p.invert {
-	color: white;
+h1.invert,
+p.invert {
+  color: white;
 }
 
 p.invert {
-	-webkit-text-stroke: 0.075em white;
+  -webkit-text-stroke: 0.075em white;
 }
 
 #overlay {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	background-color: #FFF34A;
-	opacity: 100;
-	z-index: 45;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #fff34a;
+  opacity: 100;
+  z-index: 45;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #buttplug {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	background-size: cover;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background-size: cover;
 }
 
 #frame {
-	position: absolute;
-	margin: auto;
-	z-index: 30;
+  position: absolute;
+  margin: auto;
+  z-index: 30;
 }
 
 #canvas {
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	margin: 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #canvas > * {
-	position: absolute;
+  position: absolute;
 }
 
 #frame img {
-	position: absolute;
-	width: 40px;
+  position: absolute;
+  width: 40px;
 }
 
 #frame img:nth-child(1) {
-	top: -40px;
-	left: -40px;
-	transform: rotate(270deg);
+  top: -40px;
+  left: -40px;
+  transform: rotate(270deg);
 }
 
 #frame img:nth-child(2) {
-	top: -40px;
-	right: -40px;
+  top: -40px;
+  right: -40px;
 }
 
 #frame img:nth-child(3) {
-	bottom: -40px;
-	left: -40px;
-	transform: rotate(180deg);
+  bottom: -40px;
+  left: -40px;
+  transform: rotate(180deg);
 }
 
 #frame img:nth-child(4) {
-	bottom: -40px;
-	right: -40px;
-	transform: rotate(90deg);
+  bottom: -40px;
+  right: -40px;
+  transform: rotate(90deg);
 }
 
 .cell {
-	position: absolute;
-	box-sizing: border-box;
-	z-index: 10;
-	display: flex;
-	align-items: center;
-	overflow: hidden;
-	background-size: cover;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-size: cover;
 }
 
 .cell > p {
-	margin: 20px;
-	display: none;
+  margin: 20px;
+  display: none;
 }
 
 .flock#o > * {
-	border: 0.05em solid gray;
-	opacity: 0;
+  border: 0.05em solid gray;
+  opacity: 0;
 }

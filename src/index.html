@@ -5,104 +5,627 @@ Handcrafted by Aydar N.
 me@aydar.media
 -------------------------->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>шашечки</title>
-</head>
-<body>
-	<svg width="0" height="0">
-		<defs>
-			<filter id="goo">
-				<feGaussianBlur in="SourceGraphic" stdDeviation="7" />
-				<feColorMatrix  mode="matrix" values="1 0 0  0   0
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>шашечки</title>
+  </head>
+  <body>
+    <svg width="0" height="0">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="7" />
+          <feColorMatrix
+            mode="matrix"
+            values="1 0 0  0   0
 													  0 1 0  0   0
 													  0 0 1  0   0
-													  0 0 0 35  -7" />
-				<feBlend in="SourceGraphic" />
-			</filter>
-		</defs>
-	</svg>
+													  0 0 0 35  -7"
+          />
+          <feBlend in="SourceGraphic" />
+        </filter>
+      </defs>
+    </svg>
 
-	<div id="canvas">
-		<h1 id="1" class="make-stroke" style="top: calc(50% - 260px); left: calc(50% - 590px);">общее и частное<br>московских таксистов</h1>
-		<h1 id="2" class="make-stroke" style="top: calc(50% + 150px); left: calc(50% - 110px); text-align: right;">сквозь оформление<br>машин такси</h1>
+    <div id="canvas">
+      <h1
+        id="1"
+        class="make-stroke"
+        style="top: calc(50% - 260px); left: calc(50% - 590px)"
+      >
+        общее и частное<br />московских таксистов
+      </h1>
+      <h1
+        id="2"
+        class="make-stroke"
+        style="
+          top: calc(50% + 150px);
+          left: calc(50% - 110px);
+          text-align: right;
+        "
+      >
+        сквозь оформление<br />машин такси
+      </h1>
 
-		<h1 id="3" class="make-stroke" style="top: calc(50% - 260px); left: calc(50% - 590px); display: none;">часть первая —</h1>
-		<h1 id="4" class="make-stroke" style="top: calc(50% + 160px); left: calc(50% + 120px); text-align: right; display: none;">внешность</h1>
+      <h1
+        id="3"
+        class="make-stroke"
+        style="top: calc(50% - 260px); left: calc(50% - 590px); display: none"
+      >
+        часть первая —
+      </h1>
+      <h1
+        id="4"
+        class="make-stroke"
+        style="
+          top: calc(50% + 160px);
+          left: calc(50% + 120px);
+          text-align: right;
+          display: none;
+        "
+      >
+        внешность
+      </h1>
 
-		<h1 id="27" class="make-stroke" style="top: calc(50% - 260px); left: calc(50% - 590px); display: none;">часть вторая —</h1>
-		<h1 id="28" class="make-stroke" style="top: calc(50% + 160px); left: calc(50% + 120px); text-align: right; display: none;">интерьер</h1>
+      <h1
+        id="27"
+        class="make-stroke"
+        style="top: calc(50% - 260px); left: calc(50% - 590px); display: none"
+      >
+        часть вторая —
+      </h1>
+      <h1
+        id="28"
+        class="make-stroke"
+        style="
+          top: calc(50% + 160px);
+          left: calc(50% + 120px);
+          text-align: right;
+          display: none;
+        "
+      >
+        интерьер
+      </h1>
 
-		<p id="5" style="width: 320px; top: calc(50% - 180px); left: calc(50% - 590px); display: none;">Каждому из&nbsp;нас хоть раз приходилось задумываться: “какое впечатление вызывает у&nbsp;людей моя внешность?”</p>
-		<p id="6" style="width: 320px; top: calc(50% - 110px); left: calc(50% - 290px); display: none;">Разумеется, среди таксистов, как среди представителей очень социальной и&nbsp;союзнической профессии, такие вопросы и&nbsp;подавно не&nbsp;редкость.</p>
-		<p id="7" style="width: 320px; top: calc(50% - 60px); left: calc(50% + 100px); display: none;">Вот только водителей, в&nbsp;отличие от&nbsp;простых смертных, встречают не&nbsp;по&nbsp;одежке, а&nbsp;по&nbsp;машинке, поэтому в&nbsp;первую очередь именно к&nbsp;внешнему виду своих автомобилей таксисты подходят особенно вдумчиво и&nbsp;без лишнего стеснения.</p>
-		<p id="8" style="width: 320px; top: calc(50% - 230px); left: calc(50% + 240px); opacity: 0;">Я&nbsp;захотел разобраться, что именно московские водители такси хотят сказать, когда размещают на&nbsp;кузовах своих авто наклейки и&nbsp;разные штучки&nbsp;&mdash; и&nbsp;распределил декор по&nbsp;архетипам личности.</p>
+      <p
+        id="5"
+        style="
+          width: 320px;
+          top: calc(50% - 180px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Каждому из&nbsp;нас хоть раз приходилось задумываться: “какое
+        впечатление вызывает у&nbsp;людей моя внешность?”
+      </p>
+      <p
+        id="6"
+        style="
+          width: 320px;
+          top: calc(50% - 110px);
+          left: calc(50% - 290px);
+          display: none;
+        "
+      >
+        Разумеется, среди таксистов, как среди представителей очень социальной
+        и&nbsp;союзнической профессии, такие вопросы и&nbsp;подавно
+        не&nbsp;редкость.
+      </p>
+      <p
+        id="7"
+        style="
+          width: 320px;
+          top: calc(50% - 60px);
+          left: calc(50% + 100px);
+          display: none;
+        "
+      >
+        Вот только водителей, в&nbsp;отличие от&nbsp;простых смертных, встречают
+        не&nbsp;по&nbsp;одежке, а&nbsp;по&nbsp;машинке, поэтому в&nbsp;первую
+        очередь именно к&nbsp;внешнему виду своих автомобилей таксисты подходят
+        особенно вдумчиво и&nbsp;без лишнего стеснения.
+      </p>
+      <p
+        id="8"
+        style="
+          width: 320px;
+          top: calc(50% - 230px);
+          left: calc(50% + 240px);
+          opacity: 0;
+        "
+      >
+        Я&nbsp;захотел разобраться, что именно московские водители такси хотят
+        сказать, когда размещают на&nbsp;кузовах своих авто наклейки
+        и&nbsp;разные штучки&nbsp;&mdash; и&nbsp;распределил декор
+        по&nbsp;архетипам личности.
+      </p>
 
-		<h1 id="9" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">1 — Патриот</h1>
-		<p id="10" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Одно из&nbsp;самых частых сообщений, которые способны передать нам машины такси&nbsp;&mdash; это информация о&nbsp;том, откуда родом его водитель.</p>
-		<h1 id="11" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">2 — Гонщик</h1>
-		<p id="12" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Нередко встречаются и&nbsp;водители, не&nbsp;стесняющиеся демонстрировать свою гоночную натуру. Действительно ли&nbsp;они чувствуют себя на&nbsp;дороге как на&nbsp;треке&nbsp;&mdash; остается загадкой.</p>
-		<h1 id="13" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">3 — Мыслитель</h1>
-		<p id="14" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Находятся и&nbsp;мудрецы, решающие напомнить окружающим о&nbsp;вечных ценностях и&nbsp;непреложных истинах.</p>
-		<h1 id="15" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">4 — Герой</h1>
-		<p id="16" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">А&nbsp;некоторые, вероятно, считают, что этому городу действительно нужен новый герой.</p>
-		<h1 id="17" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">5 — Миньон дедпул</h1>
-		<p id="18" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Сразу понятно, такому человеку не&nbsp;стоит лишний раз сигналить, а&nbsp;в&nbsp;яндекс такси от&nbsp;греха подальше лучше поставить пять звезд.</p>
-		<h1 id="19" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">6 — Братан</h1>
-		<p id="20" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Крепко пожмет руку, когда сядете в&nbsp;машину, а&nbsp;на&nbsp;выходе скажет &laquo;бывай&raquo;.</p>
-		<h1 id="21" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">7 — Гладиатор</h1>
-		<p id="22" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Сразу видно, кто слишком много думает про римскую империю.</p>
-		<h1 id="23" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">8 — Правитель</h1>
-		<p id="24" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Эмблема киргизского неофициального объединения таксистов&nbsp;&mdash; корона. Ну&nbsp;что ж,&nbsp;if&nbsp;you come for the king, you best not miss</p>
-		<h1 id="25" class="make-stroke" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">9 — Шутник</h1>
-		<p id="26" class="top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Такому водителю лучше всего подходит отметка &laquo;Хорошее настроение&raquo; с&nbsp;котиком. Класс.</p>
+      <h1
+        id="9"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        1 — Патриот
+      </h1>
+      <p
+        id="10"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Одно из&nbsp;самых частых сообщений, которые способны передать нам
+        машины такси&nbsp;&mdash; это информация о&nbsp;том, откуда родом его
+        водитель.
+      </p>
+      <h1
+        id="11"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        2 — Гонщик
+      </h1>
+      <p
+        id="12"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Нередко встречаются и&nbsp;водители, не&nbsp;стесняющиеся
+        демонстрировать свою гоночную натуру. Действительно ли&nbsp;они
+        чувствуют себя на&nbsp;дороге как на&nbsp;треке&nbsp;&mdash; остается
+        загадкой.
+      </p>
+      <h1
+        id="13"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        3 — Мыслитель
+      </h1>
+      <p
+        id="14"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Находятся и&nbsp;мудрецы, решающие напомнить окружающим о&nbsp;вечных
+        ценностях и&nbsp;непреложных истинах.
+      </p>
+      <h1
+        id="15"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        4 — Герой
+      </h1>
+      <p
+        id="16"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        А&nbsp;некоторые, вероятно, считают, что этому городу действительно
+        нужен новый герой.
+      </p>
+      <h1
+        id="17"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        5 — Миньон дедпул
+      </h1>
+      <p
+        id="18"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Сразу понятно, такому человеку не&nbsp;стоит лишний раз сигналить,
+        а&nbsp;в&nbsp;яндекс такси от&nbsp;греха подальше лучше поставить пять
+        звезд.
+      </p>
+      <h1
+        id="19"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        6 — Братан
+      </h1>
+      <p
+        id="20"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Крепко пожмет руку, когда сядете в&nbsp;машину, а&nbsp;на&nbsp;выходе
+        скажет &laquo;бывай&raquo;.
+      </p>
+      <h1
+        id="21"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        7 — Гладиатор
+      </h1>
+      <p
+        id="22"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Сразу видно, кто слишком много думает про римскую империю.
+      </p>
+      <h1
+        id="23"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        8 — Правитель
+      </h1>
+      <p
+        id="24"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Эмблема киргизского неофициального объединения таксистов&nbsp;&mdash;
+        корона. Ну&nbsp;что ж,&nbsp;if&nbsp;you come for the king, you best not
+        miss
+      </p>
+      <h1
+        id="25"
+        class="make-stroke"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        9 — Шутник
+      </h1>
+      <p
+        id="26"
+        class="top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Такому водителю лучше всего подходит отметка &laquo;Хорошее
+        настроение&raquo; с&nbsp;котиком. Класс.
+      </p>
 
-		<p id="29" style="width: 300px; top: calc(50% - 300px); left: calc(50% + 10px); opacity: 0;">Внешнее оформление это, конечно, безумно весело и&nbsp;неимоверно показательно. Но, как и&nbsp;по&nbsp;аналогии с&nbsp;домом, внутреннее убранство автомобиля&nbsp;&mdash; настоящее отражение души его хозяина.</p>
-		<p id="30" style="width: 300px; top: calc(50% - 80px); left: calc(50% + 300px); opacity: 0;">Особенно, если тот проводит за&nbsp;рулем дни напролет: граница между жилищем и&nbsp;машиной таксиста затирается, дом постепенно проникает в&nbsp;салон и&nbsp;распространяется в&nbsp;нем.</p>
-		<p id="31" style="width: 300px; top: calc(50% + 280px); left: calc(50% - 590px); opacity: 0;">Я&nbsp;решил проанализировать салоны машин такси, в&nbsp;которых ежедневно перемещаюсь, и&nbsp;подумать, как могли бы&nbsp;выглядеть дома их&nbsp;водителей.</p>
+      <p
+        id="29"
+        style="
+          width: 300px;
+          top: calc(50% - 300px);
+          left: calc(50% + 10px);
+          opacity: 0;
+        "
+      >
+        Внешнее оформление это, конечно, безумно весело и&nbsp;неимоверно
+        показательно. Но, как и&nbsp;по&nbsp;аналогии с&nbsp;домом, внутреннее
+        убранство автомобиля&nbsp;&mdash; настоящее отражение души его хозяина.
+      </p>
+      <p
+        id="30"
+        style="
+          width: 300px;
+          top: calc(50% - 80px);
+          left: calc(50% + 300px);
+          opacity: 0;
+        "
+      >
+        Особенно, если тот проводит за&nbsp;рулем дни напролет: граница между
+        жилищем и&nbsp;машиной таксиста затирается, дом постепенно проникает
+        в&nbsp;салон и&nbsp;распространяется в&nbsp;нем.
+      </p>
+      <p
+        id="31"
+        style="
+          width: 300px;
+          top: calc(50% + 280px);
+          left: calc(50% - 590px);
+          opacity: 0;
+        "
+      >
+        Я&nbsp;решил проанализировать салоны машин такси, в&nbsp;которых
+        ежедневно перемещаюсь, и&nbsp;подумать, как могли бы&nbsp;выглядеть дома
+        их&nbsp;водителей.
+      </p>
 
-		<h1 id="32" class="invert" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">Детская</h1>
-		<p id="33" class="invert top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Представили эту типичную квартиру, в&nbsp;которой &laquo;детская комната&raquo;&nbsp;&mdash; любая комната? Доброе семейное, короче..</p>
-		<div id="int-1" class="card" style="width: 320px; height: 600px; top: calc(50% - 220px); left: calc(50% + 20px); rotate: 14deg; transform: scale(1.2); opacity: 0;"></div>
+      <h1
+        id="32"
+        class="invert"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        Детская
+      </h1>
+      <p
+        id="33"
+        class="invert top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Представили эту типичную квартиру, в&nbsp;которой &laquo;детская
+        комната&raquo;&nbsp;&mdash; любая комната? Доброе семейное, короче..
+      </p>
+      <div
+        id="int-1"
+        class="card"
+        style="
+          width: 320px;
+          height: 600px;
+          top: calc(50% - 220px);
+          left: calc(50% + 20px);
+          rotate: 14deg;
+          transform: scale(1.2);
+          opacity: 0;
+        "
+      ></div>
 
-		<h1 id="34" class="invert" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">Оранжерея</h1>
-		<p id="35" class="invert top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">У&nbsp;машины нет балкона, а&nbsp;значит некуда вешать кашпо. Зато можно повесить на&nbsp;зеркало дубовый листочек.</p>
-		<div id="int-2" class="card" style="width: 310px; height: 500px; top: calc(50% - 320px); left: calc(50% - 100px); rotate: -4deg; transform: scale(1.2); opacity: 0;"></div>
+      <h1
+        id="34"
+        class="invert"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        Оранжерея
+      </h1>
+      <p
+        id="35"
+        class="invert top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        У&nbsp;машины нет балкона, а&nbsp;значит некуда вешать кашпо. Зато можно
+        повесить на&nbsp;зеркало дубовый листочек.
+      </p>
+      <div
+        id="int-2"
+        class="card"
+        style="
+          width: 310px;
+          height: 500px;
+          top: calc(50% - 320px);
+          left: calc(50% - 100px);
+          rotate: -4deg;
+          transform: scale(1.2);
+          opacity: 0;
+        "
+      ></div>
 
-		<h1 id="36" class="invert" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">Шумная</h1>
-		<p id="37" class="invert top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Дверью этой машины лучше не&nbsp;хлопать, а&nbsp;в&nbsp;квартиру&nbsp;&mdash; не&nbsp;стучаться. Даже если в&nbsp;ней на&nbsp;полной громкости играет нурминский.</p>
-		<div id="int-3" class="card" style="width: 380px; height: 440px; top: calc(50% - 320px); left: calc(50% + 100px); rotate: 18deg; transform: scale(1.2); opacity: 0;"></div>
+      <h1
+        id="36"
+        class="invert"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        Шумная
+      </h1>
+      <p
+        id="37"
+        class="invert top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Дверью этой машины лучше не&nbsp;хлопать,
+        а&nbsp;в&nbsp;квартиру&nbsp;&mdash; не&nbsp;стучаться. Даже если
+        в&nbsp;ней на&nbsp;полной громкости играет нурминский.
+      </p>
+      <div
+        id="int-3"
+        class="card"
+        style="
+          width: 380px;
+          height: 440px;
+          top: calc(50% - 320px);
+          left: calc(50% + 100px);
+          rotate: 18deg;
+          transform: scale(1.2);
+          opacity: 0;
+        "
+      ></div>
 
-		<h1 id="38" class="invert" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">Комфортная</h1>
-		<p id="39" class="invert top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">У&nbsp;этого водителя дома точно огромное раскладывающееся кресло и&nbsp;&laquo;алиса, выключи свет&raquo;. Я&nbsp;завидую.</p>
-		<div id="int-4" class="card" style="width: 520px; height: 360px; top: calc(50% - 320px); left: calc(50% + 200px); rotate: -6deg; transform: scale(1.2); opacity: 0;"></div>
+      <h1
+        id="38"
+        class="invert"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        Комфортная
+      </h1>
+      <p
+        id="39"
+        class="invert top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        У&nbsp;этого водителя дома точно огромное раскладывающееся кресло
+        и&nbsp;&laquo;алиса, выключи свет&raquo;. Я&nbsp;завидую.
+      </p>
+      <div
+        id="int-4"
+        class="card"
+        style="
+          width: 520px;
+          height: 360px;
+          top: calc(50% - 320px);
+          left: calc(50% + 200px);
+          rotate: -6deg;
+          transform: scale(1.2);
+          opacity: 0;
+        "
+      ></div>
 
-		<h1 id="40" class="invert" style="top: calc(50% - 340px); left: calc(50% - 590px); display: none;">Этническая</h1>
-		<p id="41" class="invert top" style="width: 320px; top: calc(50% - 240px); left: calc(50% - 590px); display: none;">Мне сразу представляется запах мантов и&nbsp;киргизского бешбармака, а&nbsp;еще большой ковер. Круто!</p>
-		<div id="int-5" class="card" style="width: 480px; height: 320px; top: calc(50% + 20px); left: calc(50% - 300px); rotate: 4deg; transform: scale(1.2); opacity: 0;"></div>
+      <h1
+        id="40"
+        class="invert"
+        style="top: calc(50% - 340px); left: calc(50% - 590px); display: none"
+      >
+        Этническая
+      </h1>
+      <p
+        id="41"
+        class="invert top"
+        style="
+          width: 320px;
+          top: calc(50% - 240px);
+          left: calc(50% - 590px);
+          display: none;
+        "
+      >
+        Мне сразу представляется запах мантов и&nbsp;киргизского бешбармака,
+        а&nbsp;еще большой ковер. Круто!
+      </p>
+      <div
+        id="int-5"
+        class="card"
+        style="
+          width: 480px;
+          height: 320px;
+          top: calc(50% + 20px);
+          left: calc(50% - 300px);
+          rotate: 4deg;
+          transform: scale(1.2);
+          opacity: 0;
+        "
+      ></div>
 
-		<p id="42" class="top" style="width: 300px; top: calc(50% - 300px); left: calc(50% - 500px); opacity: 0;">Надеюсь, этот маленький и&nbsp;смешной лонгрид показал вам привычное с&nbsp;непривычной стороны или как минимум насмешил.</p>
-		<p id="43" class="top" style="width: 300px; top: calc(50% - 220px); left: calc(50% - 100px); opacity: 0;">В&nbsp;следующий раз, когда будете заказывать комфорт до&nbsp;пантелеевской 53, обращайте внимание на&nbsp;мелочи: может ваш водитель состоит в&nbsp;тайном киргизском клане и&nbsp;собирается в&nbsp;чайхане на&nbsp;больших секретных корпоративах.</p>
-		<p id="44" class="top" style="width: 300px; top: calc(50% - 80px); left: calc(50% + 390px); opacity: 0;">А&nbsp;может, просто устает и&nbsp;недосыпает семь дней в&nbsp;неделю ради того, чтобы отправлять на&nbsp;родину, напоминанием о&nbsp;которой служит небольшой флажок или стикер с&nbsp;флагом, деньги, и&nbsp;общается с&nbsp;семьей только по&nbsp;видеосвязи.</p>
-		<p id="45" class="top" style="width: 300px; top: calc(50% + 140px); left: calc(50% - 290px); opacity: 0;">Как бы&nbsp;то&nbsp;ни&nbsp;было, поставьте пять звезд в&nbsp;яндекс такси и&nbsp;оставьте чаевые. А&nbsp;если ваш водитель хочет рассказать <nobr>какую-нибудь</nobr> историю&nbsp;&mdash; выслушайте, ему будет приятно, а&nbsp;вам&nbsp;&mdash; интересно.</p>
+      <p
+        id="42"
+        class="top"
+        style="
+          width: 300px;
+          top: calc(50% - 300px);
+          left: calc(50% - 500px);
+          opacity: 0;
+        "
+      >
+        Надеюсь, этот маленький и&nbsp;смешной лонгрид показал вам привычное
+        с&nbsp;непривычной стороны или как минимум насмешил.
+      </p>
+      <p
+        id="43"
+        class="top"
+        style="
+          width: 300px;
+          top: calc(50% - 220px);
+          left: calc(50% - 100px);
+          opacity: 0;
+        "
+      >
+        В&nbsp;следующий раз, когда будете заказывать комфорт
+        до&nbsp;пантелеевской 53, обращайте внимание на&nbsp;мелочи: может ваш
+        водитель состоит в&nbsp;тайном киргизском клане и&nbsp;собирается
+        в&nbsp;чайхане на&nbsp;больших секретных корпоративах.
+      </p>
+      <p
+        id="44"
+        class="top"
+        style="
+          width: 300px;
+          top: calc(50% - 80px);
+          left: calc(50% + 390px);
+          opacity: 0;
+        "
+      >
+        А&nbsp;может, просто устает и&nbsp;недосыпает семь дней в&nbsp;неделю
+        ради того, чтобы отправлять на&nbsp;родину, напоминанием о&nbsp;которой
+        служит небольшой флажок или стикер с&nbsp;флагом, деньги,
+        и&nbsp;общается с&nbsp;семьей только по&nbsp;видеосвязи.
+      </p>
+      <p
+        id="45"
+        class="top"
+        style="
+          width: 300px;
+          top: calc(50% + 140px);
+          left: calc(50% - 290px);
+          opacity: 0;
+        "
+      >
+        Как бы&nbsp;то&nbsp;ни&nbsp;было, поставьте пять звезд в&nbsp;яндекс
+        такси и&nbsp;оставьте чаевые. А&nbsp;если ваш водитель хочет рассказать
+        <nobr>какую-нибудь</nobr> историю&nbsp;&mdash; выслушайте, ему будет
+        приятно, а&nbsp;вам&nbsp;&mdash; интересно.
+      </p>
 
-		<h1 id="46" class="make-stroke" style="top: calc(50% + 160px); left: calc(50% + 120px); text-align: right; display: none;">Конец</h1>
+      <h1
+        id="46"
+        class="make-stroke"
+        style="
+          top: calc(50% + 160px);
+          left: calc(50% + 120px);
+          text-align: right;
+          display: none;
+        "
+      >
+        Конец
+      </h1>
 
-		<footer><a href="https://aydar.media">накодил айдар</a><p>2023</p></footer>
+      <footer>
+        <a href="https://aydar.media">накодил айдар</a>
+        <p>2023</p>
+      </footer>
 
-		<div id="frame">
-			<img src="../static/img/corner.svg" alt="">
-			<img src="../static/img/corner.svg" alt="">
-			<img src="../static/img/corner.svg" alt="">
-			<img src="../static/img/corner.svg" alt="">
-		</div>
-
-	</div>
-	<div id="overlay"><p>Я нормально работаю только в хроме! Так уж вышло</p></div>
-	<div id="buttplug"></div>
-</body>
+      <div id="frame">
+        <img src="../static/img/corner.svg" alt="" />
+        <img src="../static/img/corner.svg" alt="" />
+        <img src="../static/img/corner.svg" alt="" />
+        <img src="../static/img/corner.svg" alt="" />
+      </div>
+    </div>
+    <div id="overlay">
+      <p>Я нормально работаю только в хроме! Так уж вышло</p>
+    </div>
+    <div id="buttplug"></div>
+  </body>
 </html>
-
