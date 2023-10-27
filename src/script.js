@@ -992,6 +992,10 @@ window.addEventListener('load', () => {
 			.attr('src', HAHA)
 		$body.append(image);
 	} else {
+		let timeout = 2000
+		if (/(?!.*\b(Edge|Edg|OPR|FxiOS|CriOS)\b) AppleWebKit.*Chrome/.test(navigator.userAgent)) {
+			timeout = 0
+		}
 		setTimeout(() => {
 			$('#overlay').css({'background-color': '#363636', 'opacity': '0', 'z-index': '100'})
 			$('#overlay > p').html('')
@@ -1000,6 +1004,6 @@ window.addEventListener('load', () => {
 
 			window.scrollTo(0, 0);
 			window.requestAnimationFrame(animate)
-		}, 2000)
+		}, timeout)
 	}
 });
